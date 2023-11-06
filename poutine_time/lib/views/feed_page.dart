@@ -9,17 +9,13 @@ class FeedpageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Will need to change these
-    double baseWidth = 390;
-    double fem = MediaQuery.of(context).size.width / baseWidth;
-    double ffem = fem * 0.97;
     return Scaffold(
       appBar: AppBar(
         title: const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
+            //Feed Title
             Padding(
-              //Feed Title
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: Text(
                 'FEED',
@@ -32,8 +28,8 @@ class FeedpageWidget extends StatelessWidget {
                 ),
               ),
             ),
+            //Username
             Padding(
-              //Username
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: Text(
                 'Username',
@@ -52,6 +48,7 @@ class FeedpageWidget extends StatelessWidget {
       body: PostWidget(),
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
+          // Home Button
           BottomNavigationBarItem(
             icon: Container(
               width: 32,
@@ -62,6 +59,7 @@ class FeedpageWidget extends StatelessWidget {
             ),
             label: 'Feed',
           ),
+          // New Post Button
           BottomNavigationBarItem(
             icon: Container(
               width: 32,
@@ -72,6 +70,7 @@ class FeedpageWidget extends StatelessWidget {
             ),
             label: 'Create Post',
           ),
+          // Account Button
           BottomNavigationBarItem(
             icon: Container(
               width: 32,

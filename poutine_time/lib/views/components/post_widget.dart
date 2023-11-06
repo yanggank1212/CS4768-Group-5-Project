@@ -6,13 +6,14 @@ import 'package:intl/intl.dart';
 class PostWidget extends StatelessWidget {
   //This would need a parameter of Post Model
   //Post Model Variables
-  String _username = "John Doe";
+
   String _description =
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer et mi elit. Fusce metus dolor, efficitur id arcu sed, dapibus hendrerit dolor. Nam fringilla iaculis dui sit amet dapibus. Aliquam iaculis lorem eget lacus congue, eu laoreet tortor tempus. Maecenas interdum nulla ligula, at sollicitudin ante volutpat quis. Nam fermentum ut nisi id fringilla. Cras venenatis id nunc ut dictum. Etiam volutpat interdum suscipit. Nulla auctor sit amet nisi facilisis pharetra. Integer leo est, feugiat eu lorem sed, elementum mattis diam. Nunc pellentesque scelerisque vulputate. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nunc in nisi arcu. Cras vel ipsum porttitor, malesuada sapien a, volutpat magna. Donec sit amet diam nec eros aliquam porttitor eu sed turpis. Duis sed vehicula urna, vitae semper quam. In sollicitudin pharetra ipsum sed bibendum. Sed interdum vehicula metus, in.";
   DateTime _date = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
+    const String _username = "John Doe";
     final String _formattedDate = DateFormat('dd-MM-yyyy').format(_date);
 
     return Container(
@@ -20,8 +21,8 @@ class PostWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
+          //Top Container
           Container(
-            // Top Contaier
             padding: EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
               border: Border.all(color: Color(0xff000000)),
@@ -30,7 +31,7 @@ class PostWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 const Text(
-                  'Username',
+                  _username,
                   style: TextStyle(
                     fontFamily: 'JetBrains Mono',
                     fontSize: 14,
@@ -53,8 +54,8 @@ class PostWidget extends StatelessWidget {
               ],
             ),
           ),
+          // Middle Container
           Container(
-            //Middle Container
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             decoration: BoxDecoration(
               border: Border.all(color: Color(0xff000000)),
@@ -78,6 +79,7 @@ class PostWidget extends StatelessWidget {
               ),
             ),
           ),
+          // Bottom Container
           Container(
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             //width: double.infinity,
