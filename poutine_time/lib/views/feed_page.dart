@@ -1,14 +1,22 @@
 /// This page will display Feeds
+/// Right now it just displays 10 default posts in a ScrollView
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'components/post_widget.dart';
 
-class FeedpageWidget extends StatelessWidget {
-  const FeedpageWidget({super.key});
+class FeedpageScreen extends StatefulWidget {
+  const FeedpageScreen({super.key});
 
   @override
+  State<FeedpageScreen> createState() => _FeedpageScreen();
+}
+
+class _FeedpageScreen extends State<FeedpageScreen> {
+  @override
   Widget build(BuildContext context) {
+    const Key centerKey = ValueKey<String>('bottom-silver-list');
+
     return Scaffold(
       appBar: AppBar(
         title: const Row(
@@ -45,7 +53,23 @@ class FeedpageWidget extends StatelessWidget {
           ],
         ),
       ),
-      body: PostWidget(),
+      body: CustomScrollView(
+        center: centerKey,
+        slivers: <Widget>[
+          SliverList(
+            key: centerKey,
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                return Padding(
+                  padding: EdgeInsets.only(bottom: 16),
+                  child: PostWidget(),
+                );
+              },
+              childCount: 10,
+            ),
+          ),
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           // Home Button
