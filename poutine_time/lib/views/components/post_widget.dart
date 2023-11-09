@@ -90,8 +90,6 @@ class PostWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Container(
-                  //margin: EdgeInsets.only(left: 10),
-                  //height: double.infinity,
                   child: Row(
                     children: [
                       Container(
@@ -104,6 +102,7 @@ class PostWidget extends StatelessWidget {
                           onPressed: () {},
                         ),
                       ),
+                      SizedBox(width: 16),
                       Container(
                         width: 32,
                         height: 32,
@@ -114,6 +113,7 @@ class PostWidget extends StatelessWidget {
                           onPressed: () {},
                         ),
                       ),
+                      SizedBox(width: 16),
                       Container(
                         width: 32,
                         height: 32,
