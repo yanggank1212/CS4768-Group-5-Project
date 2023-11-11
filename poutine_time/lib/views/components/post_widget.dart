@@ -92,6 +92,7 @@ class PostWidget extends StatelessWidget {
                 Container(
                   child: Row(
                     children: [
+                      // Thumbs Up
                       Container(
                         width: 32,
                         height: 32,
@@ -102,7 +103,14 @@ class PostWidget extends StatelessWidget {
                           onPressed: () {},
                         ),
                       ),
-                      SizedBox(width: 16),
+                      SizedBox(width: 4),
+                      Container(
+                        width: 32,
+                        height: 16,
+                        child: Text("000"),
+                      ),
+                      SizedBox(width: 4),
+                      // Thumbs Down
                       Container(
                         width: 32,
                         height: 32,
@@ -113,7 +121,14 @@ class PostWidget extends StatelessWidget {
                           onPressed: () {},
                         ),
                       ),
-                      SizedBox(width: 16),
+                      SizedBox(width: 4),
+                      Container(
+                        width: 32,
+                        height: 16,
+                        child: Text("000"),
+                      ),
+                      SizedBox(width: 4),
+                      //Comment
                       Container(
                         width: 32,
                         height: 32,

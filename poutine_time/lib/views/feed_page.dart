@@ -13,6 +13,10 @@ class FeedpageScreen extends StatefulWidget {
 }
 
 class _FeedpageScreen extends State<FeedpageScreen> {
+  Future<void> _refresh() async {
+    print('Hello World');
+  }
+
   @override
   Widget build(BuildContext context) {
     const Key centerKey = ValueKey<String>('bottom-silver-list');
@@ -53,22 +57,17 @@ class _FeedpageScreen extends State<FeedpageScreen> {
           ],
         ),
       ),
-      body: CustomScrollView(
-        center: centerKey,
-        slivers: <Widget>[
-          SliverList(
-            key: centerKey,
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return Padding(
-                  padding: EdgeInsets.only(bottom: 16),
-                  child: PostWidget(),
-                );
-              },
-              childCount: 10,
-            ),
-          ),
-        ],
+      body: RefreshIndicator(
+        onRefresh: _refresh,
+        child: ListView.builder(
+          itemCount: 10,
+          itemBuilder: (BuildContext context, int index) {
+            return Padding(
+              padding: EdgeInsets.only(bottom: 16),
+              child: PostWidget(),
+            );
+          },
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
