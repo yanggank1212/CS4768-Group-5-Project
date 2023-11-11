@@ -15,11 +15,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-/* step 1 Creta themain layout of the app
-
-
-
- */
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -45,6 +40,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  get onPressed => null;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -52,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
           Text(
               "Poutine Time",
               style:TextStyle(
@@ -66,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
           fontWeight: FontWeight.bold
           ),
           ),
-          SizedBox(
+          SizedBox(//SizdedBox to make space between the contents
             height: 44.0,
           ),
           TextField(
@@ -86,9 +83,35 @@ class _LoginScreenState extends State<LoginScreen> {
              prefixIcon: Icon(Icons.lock, color:Colors.brown),
           ),
           ),
+          SizedBox(
+            height: 10.0,
+          ),
           Text(
-              "Sign in?",
+              "Sign in",
                style: TextStyle(color: Colors.blue),
+          ),
+          SizedBox(
+            height: 4.0,
+          ),
+          Text(
+            "Forget Id/Pass?",
+                style: TextStyle(color: Colors.blue),
+          ), 
+          SizedBox(
+            height: 25,
+          ),
+          Container(
+            width: double.infinity,
+            child: RawMaterialButton(
+              fillColor: Color(0xFF0069FE),
+              elevation: 0.0,
+              padding: EdgeInsets.symmetric(vertical: 20.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0)),
+
+              onPressed: () {},
+              child: Text("Login", style: TextStyle(color: Colors.white60, fontSize: 20),),
+            ),
           )
       ]),
     );
