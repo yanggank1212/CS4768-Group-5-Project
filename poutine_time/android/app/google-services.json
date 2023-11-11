@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1005533365455",
+    "project_id": "poutine-time-login",
+    "storage_bucket": "poutine-time-login.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1005533365455:android:52195eb8b19be79a0f63ba",
+        "android_client_info": {
+          "package_name": "com.example.cheese20231108"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzEl777dj5b3iVS2DWaUTsv_oTx7pbfFM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
