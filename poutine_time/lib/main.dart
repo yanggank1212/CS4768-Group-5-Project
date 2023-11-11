@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+
 
 void main() {
   runApp(const MyApp());
@@ -24,10 +28,29 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  //init firebase app
+  Future<FirebaseApp> _initializeFirebase() async {
+    FirebaseApp firebaseApp = await Firebase.initializeApp();
+    return firebaseApp;
+  }
+
+
   @override
-  Widget build(BuildContext context) {
+  Widget  build(BuildContext context) {
     return Scaffold(
-        body: LoginScreen());
+        body: FutureBuilder(
+          future: _initializeFirebase(),
+          builder: (context, snapshot){
+            if(snapshot.connectionState == ConnectionState.done){
+              return LoginScreen();
+            }
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+        ),
+    );
   }
 }
 
@@ -41,6 +64,23 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   get onPressed => null;
+
+  //login function
+  static Future<User?> loginUsingEmailPassword({required String email, required password, required BuildContext context})
+  async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user;
+    try {
+      UserCredential userCredential = await auth.signInWithEmailAndPassword(email: email, password: password);
+      user = userCredential.user;
+    } on FirebaseAuthException catch (e){
+      if(e.code == "error message user not found"){
+        print("No email in data base");
+      }
+    }
+
+    return user;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Text(
             "Forget Id/Pass?",
                 style: TextStyle(color: Colors.blue),
-          ), 
+          ),
           SizedBox(
             height: 25,
           ),
