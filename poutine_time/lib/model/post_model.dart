@@ -1,3 +1,4 @@
+
 /// This is the post model 1.0
 /// String id
 /// String username
@@ -11,27 +12,20 @@ class PostModel {
   final String? id;
   final String username;
   final String description;
-  int likes;
-  int dislikes;
+  List<String> likes;
+  List<String> dislikes;
   final DateTime release_date;
-  List<String> comments = <String>[];
+  //List<String> comments = <String>[];
 
   PostModel({
     this.id,
     required this.username,
     required this.description,
     required this.release_date,
-    this.likes = 0,
-    this.dislikes = 0,
+    required this.likes,
+    required this.dislikes,
+    //this.comments
   });
-
-  // void setLikes(int _likes) {
-  //   likes = _likes;
-  // }
-
-  // void setDislikes(int _dislikes) {
-  //   dislikes = _dislikes;
-  // }
 
   Map<String, dynamic> toMap() {
     return {
@@ -40,18 +34,19 @@ class PostModel {
       'release_date': release_date,
       'likes': likes,
       'dislikes': dislikes,
-      'comments': comments,
+      //'comments': comments ?? <String>[],
     };
   }
 
-  // static PostModel fromMap(DocumentSnapshot Doc) {
+  // static PostModel fromMap(DocumentSnapshot doc) {
   //   Map<String, dynamic> map = doc.data() as Map<String, dynamic>;
-  //   PostModel _postModel = PostModel(
-  //       id: doc.id,
-  //       username: map['username'] ?? '',
-  //       description: map['description'] ?? '',
-  //       release_date: map['release_date'] ?? DateTime.now(),
-  //       likes: map['likes'] ?? 0,
-  //       dislikes: map['dislikes'] ?? 0);
+  //   return PostModel(
+  //     id: doc.id,
+  //     username: map['username'] ?? '',
+  //     description: map['description'] ?? '',
+  //     release_date: (map['release_date'] as Timestamp).toDate() ?? DateTime.now(),
+  //     likes: map['likes'] ?? 0,
+  //     dislikes: map['dislikes'] ?? 0,
+  //   );
   // }
 }

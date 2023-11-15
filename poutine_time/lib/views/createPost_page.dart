@@ -2,14 +2,22 @@
 ///
 
 import 'package:flutter/material.dart';
-import 'components/post_widget.dart';
 
-class CreatePostpageScreen extends StatelessWidget {
-  const CreatePostpageScreen({super.key});
+class CreatePostPageScreen extends StatefulWidget {
+  const CreatePostPageScreen({Key? key}) : super(key: key);
 
   @override
+  _CreatePostPageScreenState createState() => _CreatePostPageScreenState();
+}
+
+class _CreatePostPageScreenState extends State<CreatePostPageScreen> {
+  @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Post Details'),
+      ),
+      body: Container(), // Completely blank container
+    );
   }
 }

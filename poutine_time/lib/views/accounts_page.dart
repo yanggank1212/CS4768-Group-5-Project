@@ -4,10 +4,11 @@ class AccountsPage extends StatelessWidget {
   const AccountsPage({super.key});
 
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Account'),
+        title: const Text('Account'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -63,8 +64,8 @@ class AccountsPage extends StatelessWidget {
 
   Widget UserGuide(){
     return ListTile(
-      leading: Icon(Icons.help_outline),
-      title: Text('User Guide'),
+      leading: const Icon(Icons.help_outline),
+      title: const Text('User Guide'),
       onTap: () {
         // Guide text
       },
@@ -77,7 +78,7 @@ class AccountsPage extends StatelessWidget {
     bool isDarkTheme = false; // Need to replace this
 
     return SwitchListTile(
-      title: Text('Dark Theme'),
+      title: const Text('Dark Theme'),
       value: isDarkTheme,
       onChanged: (bool value) {
         // theme change
@@ -89,8 +90,8 @@ class AccountsPage extends StatelessWidget {
   Widget LogOut(BuildContext context){
 
     return ListTile(
-      leading: Icon(Icons.exit_to_app),
-      title: Text('Log Out'),
+      leading: const Icon(Icons.exit_to_app),
+      title: const Text('Log Out'),
       onTap: () {
         // Handle log out
         Navigator.pop(context);

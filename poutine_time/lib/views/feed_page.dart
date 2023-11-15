@@ -1,26 +1,41 @@
-/// This page will display Feeds
-/// Right now it just displays 10 default posts in a ScrollView
-
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:poutine_time/model/Templates/post_model_template.dart';
+import 'package:poutine_time/model/post_model.dart';
 import 'components/post_widget.dart';
 
-class FeedpageScreen extends StatefulWidget {
-  const FeedpageScreen({super.key});
+class FeedPageScreen extends StatefulWidget {
+  const FeedPageScreen({Key? key}) : super(key: key);
 
   @override
-  State<FeedpageScreen> createState() => _FeedpageScreen();
+  State<FeedPageScreen> createState() => _FeedpageScreen();
 }
 
-class _FeedpageScreen extends State<FeedpageScreen> {
+class _FeedpageScreen extends State<FeedPageScreen> {
+  late List<PostModel> posts = []; //List to store PostModel instances
+
+  @override
+  void initState() {
+    super.initState();
+    //Populate the initial list with 10 default PostModel instances
+    posts =
+        List.generate(10, (index) => PostModelTemplate().postModelTemplate())
+            .toList();
+  }
+
   Future<void> _refresh() async {
-    print('Hello World');
+    // Simulate loading new data
+    await Future.delayed(const Duration(seconds: 2));
+
+    // Add 5 more PostModel instances on top of the existing list
+    setState(() {
+      posts.addAll(
+          List.generate(5, (index) => PostModelTemplate().postModelTemplate()));
+    });
+    //print("Refresh");
   }
 
   @override
   Widget build(BuildContext context) {
-    const Key centerKey = ValueKey<String>('bottom-silver-list');
-
     return Scaffold(
       appBar: AppBar(
         title: const Row(
@@ -60,51 +75,14 @@ class _FeedpageScreen extends State<FeedpageScreen> {
       body: RefreshIndicator(
         onRefresh: _refresh,
         child: ListView.builder(
-          itemCount: 10,
+          itemCount: posts.length,
           itemBuilder: (BuildContext context, int index) {
             return Padding(
-              padding: EdgeInsets.only(bottom: 16),
-              child: PostWidget(),
+              padding: const EdgeInsets.only(bottom: 16),
+              child: PostWidget(postModel: posts[index]),
             );
           },
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          // Home Button
-          BottomNavigationBarItem(
-            icon: Container(
-              width: 32,
-              height: 32,
-              child: Image.asset(
-                'assets/icons/home-button.png',
-              ),
-            ),
-            label: 'Feed',
-          ),
-          // New Post Button
-          BottomNavigationBarItem(
-            icon: Container(
-              width: 32,
-              height: 32,
-              child: Image.asset(
-                'assets/icons/edit-button.png',
-              ),
-            ),
-            label: 'Create Post',
-          ),
-          // Account Button
-          BottomNavigationBarItem(
-            icon: Container(
-              width: 32,
-              height: 32,
-              child: Image.asset(
-                'assets/icons/account-button.png',
-              ),
-            ),
-            label: 'Account',
-          ),
-        ],
       ),
     );
   }

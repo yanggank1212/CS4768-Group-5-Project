@@ -2,7 +2,6 @@
 ///
 
 import 'package:flutter/material.dart';
-import 'components/post_widget.dart';
 
 class ReportpageScreen extends StatelessWidget {
   const ReportpageScreen({super.key});
