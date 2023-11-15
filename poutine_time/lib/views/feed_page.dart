@@ -34,56 +34,64 @@ class _FeedpageScreen extends State<FeedPageScreen> {
     //print("Refresh");
   }
 
+  PreferredSizeWidget feedAppBar() {
+    return AppBar(
+      title: const Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          //Feed Title
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: Text(
+              'FEED',
+              style: TextStyle(
+                fontFamily: 'Inter',
+                fontSize: 24,
+                fontWeight: FontWeight.w600,
+                height: 1.2125,
+                //color: Color(0xff000000),
+              ),
+            ),
+          ),
+          //Username
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: Text(
+              'Username',
+              style: TextStyle(
+                fontFamily: 'JetBrains Mono',
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                height: 1.1,
+                //color: Color(0xff000000),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget bodyWidget() {
+    return RefreshIndicator(
+      onRefresh: _refresh,
+      child: ListView.builder(
+        itemCount: posts.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: PostWidget(postModel: posts[index]),
+          );
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            //Feed Title
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Text(
-                'FEED',
-                style: TextStyle(
-                  fontFamily: 'Inter',
-                  fontSize: 24,
-                  fontWeight: FontWeight.w600,
-                  height: 1.2125,
-                  //color: Color(0xff000000),
-                ),
-              ),
-            ),
-            //Username
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Text(
-                'Username',
-                style: TextStyle(
-                  fontFamily: 'JetBrains Mono',
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  height: 1.1,
-                  //color: Color(0xff000000),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-      body: RefreshIndicator(
-        onRefresh: _refresh,
-        child: ListView.builder(
-          itemCount: posts.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 16),
-              child: PostWidget(postModel: posts[index]),
-            );
-          },
-        ),
-      ),
+      appBar: feedAppBar(),
+      body: bodyWidget(),
     );
   }
 }

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:poutine_time/model/post_model.dart';
@@ -12,7 +11,8 @@ class PostWidget extends StatelessWidget {
   bool displayInteractions;
   bool displayReleaseDate;
 
-  PostWidget({super.key, 
+  PostWidget({
+    super.key,
     required this.postModel,
     this.displayUsername = false,
     this.displayPostOption = false,
