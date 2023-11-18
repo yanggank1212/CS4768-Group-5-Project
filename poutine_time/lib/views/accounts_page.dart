@@ -1,4 +1,9 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../theme_provider.dart';
 
 class AccountsPage extends StatelessWidget {
   const AccountsPage({super.key});
@@ -16,7 +21,7 @@ class AccountsPage extends StatelessWidget {
             profileDetails(),
             ChangeEmailPassword(),
             UserGuide(),
-            ThemeCustomization(),
+            ThemeCustomization(context),
             LogOut(context),
           ],
         ),
@@ -67,6 +72,9 @@ class AccountsPage extends StatelessWidget {
       leading: const Icon(Icons.help_outline),
       title: const Text('User Guide'),
       onTap: () {
+
+
+
         // Guide text
       },
     );
@@ -74,17 +82,19 @@ class AccountsPage extends StatelessWidget {
 
   }
 
-  Widget ThemeCustomization(){
-    bool isDarkTheme = false; // Need to replace this
+  Widget ThemeCustomization(BuildContext context) {
 
-    return SwitchListTile(
-      title: const Text('Dark Theme'),
-      value: isDarkTheme,
-      onChanged: (bool value) {
-        // theme change
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, child) {
+        return SwitchListTile(
+          title: const Text('Dark Theme'),
+          value: themeProvider.isDarkTheme,
+          onChanged: (bool value) {
+            themeProvider.isDarkTheme = value;
+          },
+        );
       },
     );
-
   }
 
   Widget LogOut(BuildContext context){
