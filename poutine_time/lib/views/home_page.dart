@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:poutine_time/model/user_model.dart';
 import 'package:poutine_time/views/createPost_page.dart';
 import 'package:poutine_time/views/accounts_page.dart';
+import 'package:poutine_time/controller/user_controller.dart';
 
 import 'feed_page.dart';
 
 class HomePageScreen extends StatefulWidget {
-  final String userID;
-  const HomePageScreen({Key? key, required this.userID}) : super(key: key);
+  HomePageScreen({Key? key}) : super(key: key);
+
+  final UserController userController = UserController();
 
   @override
   State<HomePageScreen> createState() => _HomePageScreen();
@@ -14,6 +17,13 @@ class HomePageScreen extends StatefulWidget {
 
 class _HomePageScreen extends State<HomePageScreen> {
   int _selectedIndex = 0; //For Bottom Bar Navigation
+  UserModel userModel = UserController().getUserModel()
+      as UserModel; //To access the User's details
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   void _navigateBottomBar(int index) {
     setState(() {

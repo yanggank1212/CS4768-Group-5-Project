@@ -63,6 +63,7 @@ class _SignUpPageState extends State<SignUpPage> {
     final String password = _passwordController.text.trim();
     final String username = _usernameController.text.trim();
 
+    //Awaiting Domain Verification
     // if (!email.endsWith('@mun.ca')) {
     //   // Show a SnackBar if the email doesn't end with '@mun.ca'
     //   ScaffoldMessenger.of(context).showSnackBar(
@@ -80,6 +81,7 @@ class _SignUpPageState extends State<SignUpPage> {
         password: password,
       );
 
+      //Awaiting Domain Verification
       //await userCredential.user!.sendEmailVerification();
 
       // // Show a SnackBar for successful sign-up
@@ -103,25 +105,21 @@ class _SignUpPageState extends State<SignUpPage> {
       //   );
       // }
 
+      //Create UserModel
       String userID = userCredential.user!.uid;
-      UserModel userModel = UserModelTemplate().userModelTemplate();
+      UserModel userModel = UserModel(username: username);
 
-      //Create User Database
-      //Function to create UserDatabase
-      /*
-        Parameters: USERID userID
-                    String username
-      */
-
+      //Store User information on Data/UserList
       await _firestore
           .collection('Data')
           .doc("userList")
-          .set({userID: userModel.toMap()});
+          .update({userID: userModel.toMap()});
 
+      //Navigate to HomePage
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => HomePageScreen(userID: userID),
+          builder: (context) => HomePageScreen(),
         ),
       );
     } on FirebaseAuthException catch (e) {
