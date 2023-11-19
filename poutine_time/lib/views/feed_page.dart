@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:poutine_time/model/Templates/post_model_template.dart';
+import 'package:poutine_time/model/Templates/model_templates.dart';
 import 'package:poutine_time/model/post_model.dart';
 import 'components/post_widget.dart';
 

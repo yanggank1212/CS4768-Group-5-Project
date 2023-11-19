@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:poutine_time/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'views/auth_gate.dart';
+import 'views/signin_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,8 +29,11 @@ class MainApp extends StatelessWidget {
           // Listen to the theme changes
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            theme: themeProvider.isDarkTheme ? ThemeData.dark() : ThemeData.light(), // Apply the theme based on the current theme state
-            home: const HomePageScreen(),
+            theme: themeProvider.isDarkTheme
+                ? ThemeData.dark()
+                : ThemeData
+                    .light(), // Apply the theme based on the current theme state
+            home: SignUpPage(),
           );
         },
       ),

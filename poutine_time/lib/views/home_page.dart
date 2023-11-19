@@ -5,7 +5,8 @@ import 'package:poutine_time/views/accounts_page.dart';
 import 'feed_page.dart';
 
 class HomePageScreen extends StatefulWidget {
-  const HomePageScreen({Key? key}) : super(key: key);
+  final String userID;
+  const HomePageScreen({Key? key, required this.userID}) : super(key: key);
 
   @override
   State<HomePageScreen> createState() => _HomePageScreen();
