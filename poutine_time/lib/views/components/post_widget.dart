@@ -129,7 +129,12 @@ class PostWidget extends StatelessWidget {
                   SizedBox(
                     width: 32,
                     height: 16,
-                    child: Text(postModel.likes.length.toString()),
+                    child: Text(
+                      postModel.likes.length.toString(),
+                      style: const TextStyle(
+                        color: Color(0xff000000),
+                      ),
+                    ),
                   ),
                   const SizedBox(width: 4),
                   // Thumbs Down
@@ -148,7 +153,12 @@ class PostWidget extends StatelessWidget {
                   SizedBox(
                     width: 32,
                     height: 16,
-                    child: Text(postModel.dislikes.length.toString()),
+                    child: Text(
+                      postModel.dislikes.length.toString(),
+                      style: const TextStyle(
+                        color: Color(0xff000000),
+                      ),
+                    ),
                   ),
                   const SizedBox(width: 4),
                   //Comment

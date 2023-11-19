@@ -8,7 +8,6 @@ import '../theme_provider.dart';
 class AccountsPage extends StatelessWidget {
   const AccountsPage({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,26 +35,26 @@ class AccountsPage extends StatelessWidget {
         children: <Widget>[
           CircleAvatar(
             radius: 50,
-            backgroundImage: NetworkImage('https://via.placeholder.com/150'),
+            //backgroundImage: NetworkImage('https://via.placeholder.com/150'),
           ),
           SizedBox(height: 8),
           Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text('Username', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              Text('Username',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               SizedBox(width: 4),
               Icon(Icons.verified, color: Colors.blue) // Verified icon
             ],
           ),
-
         ],
       ),
     );
   }
-  Widget ChangeEmailPassword(){
+
+  Widget ChangeEmailPassword() {
     return Column(
       children: <Widget>[
-
         ListTile(
           leading: const Icon(Icons.lock),
           title: const Text('Change Password'),
@@ -67,23 +66,17 @@ class AccountsPage extends StatelessWidget {
     );
   }
 
-  Widget UserGuide(){
+  Widget UserGuide() {
     return ListTile(
       leading: const Icon(Icons.help_outline),
       title: const Text('User Guide'),
       onTap: () {
-
-
-
         // Guide text
       },
     );
-
-
   }
 
   Widget ThemeCustomization(BuildContext context) {
-
     return Consumer<ThemeProvider>(
       builder: (context, themeProvider, child) {
         return SwitchListTile(
@@ -97,8 +90,7 @@ class AccountsPage extends StatelessWidget {
     );
   }
 
-  Widget LogOut(BuildContext context){
-
+  Widget LogOut(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.exit_to_app),
       title: const Text('Log Out'),
@@ -107,10 +99,5 @@ class AccountsPage extends StatelessWidget {
         Navigator.pop(context);
       },
     );
-
-
   }
-
-
-
 }
