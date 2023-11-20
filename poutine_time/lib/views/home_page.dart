@@ -17,8 +17,7 @@ class HomePageScreen extends StatefulWidget {
 
 class _HomePageScreen extends State<HomePageScreen> {
   int _selectedIndex = 0; //For Bottom Bar Navigation
-  UserModel userModel = UserController().getUserModel()
-      as UserModel; //To access the User's details
+  Future<UserModel> userModel = UserController().getUserModel();
 
   @override
   void initState() {

@@ -15,7 +15,6 @@ class UserController {
     CollectionReference dataCollection =
         FirebaseFirestore.instance.collection('Data');
     DocumentSnapshot userListDoc = await dataCollection.doc('userList').get();
-    String? userID = getUserID();
 
     return UserModel.fromMap(userListDoc, getUserID()!);
   }

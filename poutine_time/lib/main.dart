@@ -33,7 +33,7 @@ class MainApp extends StatelessWidget {
                 ? ThemeData.dark()
                 : ThemeData
                     .light(), // Apply the theme based on the current theme state
-            home: SignUpPage(),
+            home: AuthPage(),
           );
         },
       ),
