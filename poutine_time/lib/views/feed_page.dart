@@ -6,8 +6,8 @@ import 'package:poutine_time/model/user_model.dart';
 import 'components/post_widget.dart';
 
 class FeedPageScreen extends StatefulWidget {
-  final UserModel userModel;
-  FeedPageScreen({Key? key, required this.userModel}) : super(key: key);
+  final UserController userController;
+  FeedPageScreen({Key? key, required this.userController}) : super(key: key);
 
   @override
   State<FeedPageScreen> createState() => _FeedpageScreen();
@@ -93,7 +93,7 @@ class _FeedpageScreen extends State<FeedPageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: feedAppBar(widget.userModel.username),
+      appBar: feedAppBar(widget.userController.getUsername()),
       body: bodyWidget(),
     );
   }

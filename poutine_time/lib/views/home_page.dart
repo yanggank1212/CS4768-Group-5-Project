@@ -26,7 +26,7 @@ class _HomePageScreen extends State<HomePageScreen> {
 
   Future<void> initializeData() async {
     // Wait for the completion of the asynchronous call
-    userController.userModel = await userController.getUserModelData();
+    userController.setUserModel(await userController.getUserModelData());
 
     setState(() {});
   }
@@ -40,9 +40,9 @@ class _HomePageScreen extends State<HomePageScreen> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> _pages = [
-      FeedPageScreen(userModel: userController.userModel),
-      CreatePostPageScreen(userModel: userController.userModel),
-      AccountsPage(userModel: userController.userModel),
+      FeedPageScreen(userController: userController),
+      CreatePostPageScreen(userController: userController),
+      AccountsPage(userController: userController),
     ];
 
     return Scaffold(

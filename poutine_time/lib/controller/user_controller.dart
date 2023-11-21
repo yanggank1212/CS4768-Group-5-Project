@@ -13,6 +13,14 @@ class UserController {
     return user?.uid;
   }
 
+  String getUsername() {
+    return userModel.username;
+  }
+
+  void setUserModel(UserModel userModel) {
+    this.userModel = userModel;
+  }
+
   Future<UserModel> getUserModelData() async {
     try {
       CollectionReference dataCollection =
