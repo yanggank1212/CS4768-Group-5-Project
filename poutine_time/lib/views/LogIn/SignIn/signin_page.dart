@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:poutine_time/model/Templates/model_templates.dart';
-import 'package:poutine_time/views/home_page.dart';
+import 'package:poutine_time/views/Home/home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:poutine_time/model/user_model.dart';
+import 'package:poutine_time/views/loading_page.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -120,7 +121,7 @@ class _SignUpPageState extends State<SignUpPage> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => HomePageScreen(),
+          builder: (context) => LoadingScreen(),
         ),
       );
     } on FirebaseAuthException catch (e) {

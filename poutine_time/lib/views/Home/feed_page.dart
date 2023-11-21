@@ -3,7 +3,7 @@ import 'package:poutine_time/controller/user_controller.dart';
 import 'package:poutine_time/model/Templates/model_templates.dart';
 import 'package:poutine_time/model/post_model.dart';
 import 'package:poutine_time/model/user_model.dart';
-import 'components/post_widget.dart';
+import '../components/post_widget.dart';
 
 class FeedPageScreen extends StatefulWidget {
   final UserController userController;
@@ -93,7 +93,7 @@ class _FeedpageScreen extends State<FeedPageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: feedAppBar(widget.userController.getUsername()),
+      appBar: feedAppBar(widget.userController.getUsername() ?? "default"),
       body: bodyWidget(),
     );
   }

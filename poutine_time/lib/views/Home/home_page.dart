@@ -1,21 +1,22 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:poutine_time/model/user_model.dart';
-import 'package:poutine_time/views/createPost_page.dart';
-import 'package:poutine_time/views/accounts_page.dart';
+import 'package:poutine_time/views/Home/createPost_page.dart';
+import 'package:poutine_time/views/Home/accounts_page.dart';
 import 'package:poutine_time/controller/user_controller.dart';
 
 import 'feed_page.dart';
 
 class HomePageScreen extends StatefulWidget {
-  HomePageScreen({Key? key}) : super(key: key);
+  final UserController userController;
+  HomePageScreen({Key? key, required this.userController}) : super(key: key);
+
   @override
   State<HomePageScreen> createState() => _HomePageScreen();
 }
 
 class _HomePageScreen extends State<HomePageScreen> {
   int _selectedIndex = 0; //For Bottom Bar Navigation
-  UserController userController = UserController();
   //late UserModel userModel;
 
   @override
@@ -26,7 +27,8 @@ class _HomePageScreen extends State<HomePageScreen> {
 
   Future<void> initializeData() async {
     // Wait for the completion of the asynchronous call
-    userController.setUserModel(await userController.getUserModelData());
+    //userController.setUserModel(await userController.getUserModelData());
+    //userModel = await userController.getUserModelData();
 
     setState(() {});
   }
@@ -40,9 +42,9 @@ class _HomePageScreen extends State<HomePageScreen> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> _pages = [
-      FeedPageScreen(userController: userController),
-      CreatePostPageScreen(userController: userController),
-      AccountsPage(userController: userController),
+      FeedPageScreen(userController: widget.userController),
+      CreatePostPageScreen(userController: widget.userController),
+      AccountsPage(userController: widget.userController),
     ];
 
     return Scaffold(

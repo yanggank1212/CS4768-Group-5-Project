@@ -5,7 +5,7 @@ import 'package:poutine_time/controller/user_controller.dart';
 import 'package:poutine_time/model/user_model.dart';
 import 'package:provider/provider.dart';
 
-import '../theme_provider.dart';
+import '../../theme_provider.dart';
 
 class AccountsPage extends StatelessWidget {
   final UserController userController;

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:poutine_time/firebase_options.dart';
-import 'package:poutine_time/views/home_page.dart';
+import 'package:poutine_time/views/Home/home_page.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:poutine_time/theme_provider.dart';
 import 'package:provider/provider.dart';
-import 'views/auth_gate.dart';
-import 'views/signin_page.dart';
+import 'views/LogIn/SignIn/auth_gate.dart';
+import 'views/LogIn/SignIn/signin_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

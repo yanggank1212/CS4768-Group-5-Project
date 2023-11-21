@@ -3,8 +3,11 @@
 ///
 
 import 'package:flutter/material.dart';
-import 'package:poutine_time/views/home_page.dart';
-import 'package:poutine_time/views/signin_page.dart';
+import 'package:poutine_time/controller/user_controller.dart';
+import 'package:poutine_time/model/user_model.dart';
+import 'package:poutine_time/views/Home/home_page.dart';
+import 'package:poutine_time/views/loading_page.dart';
+import 'package:poutine_time/views/LogIn/SignIn/signin_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthPage extends StatefulWidget {
@@ -64,7 +67,7 @@ class _AuthPage extends State<AuthPage> {
                   // Navigate to the Sign Up screen
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => HomePageScreen()),
+                    MaterialPageRoute(builder: (context) => LoadingScreen()),
                   );
                 } catch (e) {
                   print('Error during login: $e');
