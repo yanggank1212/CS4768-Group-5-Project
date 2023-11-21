@@ -7,12 +7,13 @@ import 'package:poutine_time/model/user_model.dart';
 
 class UserController {
   final user = FirebaseAuth.instance.currentUser;
+  late UserModel userModel;
 
   String? getUserID() {
     return user?.uid;
   }
 
-  Future<UserModel> getUserModel() async {
+  Future<UserModel> getUserModelData() async {
     try {
       CollectionReference dataCollection =
           FirebaseFirestore.instance.collection('Data');

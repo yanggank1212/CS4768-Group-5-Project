@@ -15,7 +15,7 @@ class FeedPageScreen extends StatefulWidget {
 
 class _FeedpageScreen extends State<FeedPageScreen> {
   late List<PostModel> posts = []; //List to store PostModel instances
-  UserController userController = UserController();
+  //UserController userController = UserController();
 
   @override
   void initState() {
@@ -43,7 +43,7 @@ class _FeedpageScreen extends State<FeedPageScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           //Feed Title
-          Padding(
+          const Padding(
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: Text(
               'FEED',
@@ -61,7 +61,7 @@ class _FeedpageScreen extends State<FeedPageScreen> {
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: Text(
               username,
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: 'JetBrains Mono',
                 fontSize: 20,
                 fontWeight: FontWeight.w500,
