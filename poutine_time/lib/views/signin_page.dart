@@ -106,7 +106,8 @@ class _SignUpPageState extends State<SignUpPage> {
       // }
 
       //Create UserModel
-      String userID = userCredential.user!.uid;
+      User? user = userCredential.user;
+      String userID = user!.uid;
       UserModel userModel = UserModel(username: username);
 
       //Store User information on Data/UserList

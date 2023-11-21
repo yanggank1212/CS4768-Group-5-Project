@@ -1,12 +1,14 @@
 //import 'dart:js';
 
 import 'package:flutter/material.dart';
+import 'package:poutine_time/model/user_model.dart';
 import 'package:provider/provider.dart';
 
 import '../theme_provider.dart';
 
 class AccountsPage extends StatelessWidget {
-  const AccountsPage({super.key});
+  final UserModel userModel;
+  AccountsPage({super.key, required this.userModel});
 
   @override
   Widget build(BuildContext context) {

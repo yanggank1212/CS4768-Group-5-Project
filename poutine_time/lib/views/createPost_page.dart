@@ -2,9 +2,11 @@
 ///
 
 import 'package:flutter/material.dart';
+import 'package:poutine_time/model/user_model.dart';
 
 class CreatePostPageScreen extends StatefulWidget {
-  const CreatePostPageScreen({Key? key}) : super(key: key);
+  final UserModel userModel;
+  CreatePostPageScreen({Key? key, required this.userModel}) : super(key: key);
 
   @override
   _CreatePostPageScreenState createState() => _CreatePostPageScreenState();

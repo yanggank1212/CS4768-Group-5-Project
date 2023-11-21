@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:poutine_time/model/user_model.dart';
 import 'package:poutine_time/views/createPost_page.dart';
@@ -8,20 +9,26 @@ import 'feed_page.dart';
 
 class HomePageScreen extends StatefulWidget {
   HomePageScreen({Key? key}) : super(key: key);
-
-  final UserController userController = UserController();
-
   @override
   State<HomePageScreen> createState() => _HomePageScreen();
 }
 
 class _HomePageScreen extends State<HomePageScreen> {
   int _selectedIndex = 0; //For Bottom Bar Navigation
-  Future<UserModel> userModel = UserController().getUserModel();
+  UserController userController = UserController();
+  late UserModel userModel;
 
   @override
   void initState() {
     super.initState();
+    initializeData();
+  }
+
+  Future<void> initializeData() async {
+    // Wait for the completion of the asynchronous call
+    userModel = await userController.getUserModel();
+
+    setState(() {});
   }
 
   void _navigateBottomBar(int index) {
@@ -30,14 +37,14 @@ class _HomePageScreen extends State<HomePageScreen> {
     });
   }
 
-  final List<Widget> _pages = [
-    const FeedPageScreen(),
-    const CreatePostPageScreen(),
-    const AccountsPage(),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final List<Widget> _pages = [
+      FeedPageScreen(userModel: userModel),
+      CreatePostPageScreen(userModel: userModel),
+      AccountsPage(userModel: userModel),
+    ];
+
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(

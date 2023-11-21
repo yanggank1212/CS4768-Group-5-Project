@@ -92,6 +92,8 @@ class PostWidget extends StatelessWidget {
               height: 1.1,
               color: Color(0xff000000),
             ),
+            maxLines: 3, //The Maximum number of lines to display
+            overflow: TextOverflow.ellipsis, //To Display (...)
           ),
         ),
       ),

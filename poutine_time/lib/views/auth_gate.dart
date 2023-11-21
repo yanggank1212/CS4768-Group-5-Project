@@ -3,7 +3,9 @@
 ///
 
 import 'package:flutter/material.dart';
+import 'package:poutine_time/views/home_page.dart';
 import 'package:poutine_time/views/signin_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -13,6 +15,8 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPage extends State<AuthPage> {
+  FirebaseAuth auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,6 +47,30 @@ class _AuthPage extends State<AuthPage> {
                 );
               },
               child: Text('Sign Up'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () async {
+                try {
+                  UserCredential userCredential =
+                      await auth.signInWithEmailAndPassword(
+                    email: 'johndoe@gmail.com',
+                    password: 'poopoo',
+                  );
+
+                  User? user = userCredential.user;
+                  // print('User logged in: ${user?.uid}');
+
+                  // Navigate to the Sign Up screen
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomePageScreen()),
+                  );
+                } catch (e) {
+                  print('Error during login: $e');
+                }
+              },
+              child: Text('Sign Up as John Doe'),
             ),
           ],
         ),

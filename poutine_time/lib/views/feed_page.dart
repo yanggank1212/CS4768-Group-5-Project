@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:poutine_time/controller/user_controller.dart';
 import 'package:poutine_time/model/Templates/model_templates.dart';
 import 'package:poutine_time/model/post_model.dart';
+import 'package:poutine_time/model/user_model.dart';
 import 'components/post_widget.dart';
 
 class FeedPageScreen extends StatefulWidget {
-  const FeedPageScreen({Key? key}) : super(key: key);
+  final UserModel userModel;
+  FeedPageScreen({Key? key, required this.userModel}) : super(key: key);
 
   @override
   State<FeedPageScreen> createState() => _FeedpageScreen();
@@ -12,11 +15,11 @@ class FeedPageScreen extends StatefulWidget {
 
 class _FeedpageScreen extends State<FeedPageScreen> {
   late List<PostModel> posts = []; //List to store PostModel instances
+  UserController userController = UserController();
 
   @override
   void initState() {
     super.initState();
-    //Populate the initial list with 10 default PostModel instances
     posts =
         List.generate(10, (index) => PostModelTemplate().postModelTemplate())
             .toList();
@@ -34,9 +37,9 @@ class _FeedpageScreen extends State<FeedPageScreen> {
     //print("Refresh");
   }
 
-  PreferredSizeWidget feedAppBar() {
+  PreferredSizeWidget feedAppBar(String username) {
     return AppBar(
-      title: const Row(
+      title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           //Feed Title
@@ -57,7 +60,7 @@ class _FeedpageScreen extends State<FeedPageScreen> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: Text(
-              'Username',
+              username,
               style: TextStyle(
                 fontFamily: 'JetBrains Mono',
                 fontSize: 20,
@@ -90,7 +93,7 @@ class _FeedpageScreen extends State<FeedPageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: feedAppBar(),
+      appBar: feedAppBar(widget.userModel.username),
       body: bodyWidget(),
     );
   }
