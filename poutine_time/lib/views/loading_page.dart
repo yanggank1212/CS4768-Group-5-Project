@@ -47,13 +47,13 @@ class _LoadingScreenState extends State<LoadingScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(
-                    'assets/graphics/loading_image.jpg', // replace with your image path
-                    height: 300, // adjust the height as needed
-                    width: 300, // adjust the width as needed
+                    'assets/graphics/loading_image.jpg',
+                    height: 300,
+                    width: 300,
                   ),
                   SizedBox(height: 20),
                   SizedBox(
-                    width: 300, // adjust the width as needed
+                    width: 300,
                     child: LinearProgressIndicator(),
                   ),
                 ],
@@ -63,9 +63,10 @@ class _LoadingScreenState extends State<LoadingScreen> {
               return Text('Error loading data');
             } else {
               // Data has been loaded, navigate to HomePageScreen
-              WidgetsBinding.instance?.addPostFrameCallback((_) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
                 UserModel userModel = snapshot.data!;
                 userController.setUserModel(userModel);
+                //Pass userController (it contains userModel) to the HomePageScreen
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(

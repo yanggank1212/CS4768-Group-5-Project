@@ -31,9 +31,10 @@ class _AuthPage extends State<AuthPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
+              //Log In Button
               onPressed: () {
                 // Navigate to the Log In screen
-                // Navigator.push(
+                // Navigator.pushReplacement(
                 //   context,
                 //   MaterialPageRoute(builder: (context) => LoginScreen()),
                 // );
@@ -42,9 +43,10 @@ class _AuthPage extends State<AuthPage> {
             ),
             SizedBox(height: 20),
             ElevatedButton(
+              //Sign Up Button
               onPressed: () {
                 // Navigate to the Sign Up screen
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => SignUpPage()),
                 );
@@ -53,6 +55,7 @@ class _AuthPage extends State<AuthPage> {
             ),
             SizedBox(height: 20),
             ElevatedButton(
+              //Debugger: Log In as JohnDoe@gmail.com
               onPressed: () async {
                 try {
                   UserCredential userCredential =
