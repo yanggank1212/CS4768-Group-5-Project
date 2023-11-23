@@ -17,7 +17,6 @@ class HomePageScreen extends StatefulWidget {
 
 class _HomePageScreen extends State<HomePageScreen> {
   int _selectedIndex = 0; //For Bottom Bar Navigation
-  //late UserModel userModel;
 
   @override
   void initState() {
@@ -26,10 +25,6 @@ class _HomePageScreen extends State<HomePageScreen> {
   }
 
   Future<void> initializeData() async {
-    // Wait for the completion of the asynchronous call
-    //userController.setUserModel(await userController.getUserModelData());
-    //userModel = await userController.getUserModelData();
-
     setState(() {});
   }
 
@@ -42,6 +37,7 @@ class _HomePageScreen extends State<HomePageScreen> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> _pages = [
+      //Pass Usercontroller to these 3 pages
       FeedPageScreen(userController: widget.userController),
       CreatePostPageScreen(userController: widget.userController),
       AccountsPage(userController: widget.userController),

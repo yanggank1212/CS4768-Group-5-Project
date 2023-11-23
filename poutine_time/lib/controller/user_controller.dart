@@ -23,10 +23,12 @@ class UserController {
 
   Future<UserModel> getUserModelData() async {
     try {
+      // Load userList from Firestore Database "Data/userList"
       CollectionReference dataCollection =
           FirebaseFirestore.instance.collection('Data');
       DocumentSnapshot userListDoc = await dataCollection.doc('userList').get();
 
+      //If it exists get the map of the Specific userModel using the UserID as the key, if it doesnt then return the userModel template for now
       if (userListDoc.exists) {
         return UserModel.fromMap(userListDoc, getUserID()!);
       } else {

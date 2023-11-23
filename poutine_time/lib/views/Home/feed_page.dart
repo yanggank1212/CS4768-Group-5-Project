@@ -15,7 +15,6 @@ class FeedPageScreen extends StatefulWidget {
 
 class _FeedpageScreen extends State<FeedPageScreen> {
   late List<PostModel> posts = []; //List to store PostModel instances
-  //UserController userController = UserController();
 
   @override
   void initState() {
@@ -34,7 +33,7 @@ class _FeedpageScreen extends State<FeedPageScreen> {
       posts.addAll(
           List.generate(5, (index) => PostModelTemplate().postModelTemplate()));
     });
-    //print("Refresh");
+    print("Refresh");
   }
 
   PreferredSizeWidget feedAppBar(String username) {
@@ -93,7 +92,7 @@ class _FeedpageScreen extends State<FeedPageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: feedAppBar(widget.userController.getUsername() ?? "default"),
+      appBar: feedAppBar(widget.userController.getUsername()),
       body: bodyWidget(),
     );
   }
