@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:poutine_time/controller/user_controller.dart';
 import 'package:poutine_time/model/post_model.dart';
@@ -6,7 +7,8 @@ import 'package:poutine_time/controller/post_controller.dart';
 class CreatePostPageScreen extends StatefulWidget {
   final UserController userController;
 
-  const CreatePostPageScreen({Key? key, required this.userController}) : super(key: key);
+  const CreatePostPageScreen({Key? key, required this.userController})
+      : super(key: key);
 
   @override
   _CreatePostPageScreenState createState() => _CreatePostPageScreenState();
@@ -19,6 +21,7 @@ class _CreatePostPageScreenState extends State<CreatePostPageScreen> {
 
   Future<void> _createPost() async {
     if (_descriptionController.text.isEmpty) {
+      print("Fill Description");
       return;
     }
 
@@ -37,13 +40,14 @@ class _CreatePostPageScreenState extends State<CreatePostPageScreen> {
         dislikes: [], // Initializing dislikes as an empty list
       );
 
-      await _postControllerService.addPost(newPost);
+      DocumentReference<Object?> documentReference =
+          await _postControllerService.addPost(newPost);
 
       _message();
 
       // Handle post creation success
     } catch (e) {
-       //Later
+      //Later
     } finally {
       setState(() {
         _isLoading = false;
@@ -56,9 +60,9 @@ class _CreatePostPageScreenState extends State<CreatePostPageScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Create Post'),
-
       ),
-      body: SingleChildScrollView( // Use SingleChildScrollView to avoid overflow
+      body: SingleChildScrollView(
+        // Use SingleChildScrollView to avoid overflow
         padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,7 +80,8 @@ class _CreatePostPageScreenState extends State<CreatePostPageScreen> {
               decoration: InputDecoration(
                 hintText: 'Enter your post description here...',
                 border: OutlineInputBorder(),
-                fillColor: Colors.grey[200], // Light background color for the TextField
+                fillColor: Colors
+                    .grey[200], // Light background color for the TextField
                 filled: true,
               ),
               maxLines: 5, // Increased max lines
@@ -88,8 +93,10 @@ class _CreatePostPageScreenState extends State<CreatePostPageScreen> {
               onPressed: _createPost,
               child: const Text('Submit Post'),
               style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white, backgroundColor: Theme.of(context).primaryColor, // Text color
-                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15), // Button padding
+                foregroundColor: Colors.white,
+                backgroundColor: Theme.of(context).primaryColor, // Text color
+                padding: EdgeInsets.symmetric(
+                    horizontal: 50, vertical: 15), // Button padding
               ),
             ),
             if (_isLoading) ...[
@@ -101,8 +108,9 @@ class _CreatePostPageScreenState extends State<CreatePostPageScreen> {
       ),
     );
   }
+
   // Message to display after the post is submitted
-  void _message(){
+  void _message() {
     final snackBar = SnackBar(
       content: const Text('Post submitted!'),
       backgroundColor: Colors.blueAccent,

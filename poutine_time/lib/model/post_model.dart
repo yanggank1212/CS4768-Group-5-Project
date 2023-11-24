@@ -1,5 +1,5 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:poutine_time/controller/user_controller.dart';
 
 /// This is the post model 1.0
 /// String id
@@ -20,6 +20,8 @@ class PostModel {
   final DateTime release_date;
   //List<String> comments = <String>[];
 
+  UserController userController = UserController();
+
   // Likes and dislikes are added here as default values.
   PostModel({
     required this.userID,
@@ -30,13 +32,14 @@ class PostModel {
     List<String>? likes,
     List<String>? dislikes,
     // List<String>? comments
-  }) : this.likes = likes ?? [],
+  })  : this.likes = likes ?? [],
         this.dislikes = dislikes ?? [];
   // this.comments = comments ?? [];
 
   Map<String, dynamic> toMap() {
     return {
       'userID': userID,
+      'username': username,
       'description': description,
       'release_date': Timestamp.fromDate(release_date),
       'likes': likes,
@@ -56,5 +59,16 @@ class PostModel {
       dislikes: List<String>.from(map['dislikes'] ?? []),
       //comments: List<String>.from(map['comments'] ?? []),
     );
+  }
+
+  void printDetails() {
+    print('Post Details:');
+    print('ID: $id');
+    print('User ID: $userID');
+    print('Username: $username');
+    print('Description: $description');
+    print('Likes: $likes');
+    print('Dislikes: $dislikes');
+    print('Release Date: $release_date');
   }
 }

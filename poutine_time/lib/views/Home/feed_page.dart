@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:poutine_time/controller/post_controller.dart';
 import 'package:poutine_time/controller/user_controller.dart';
 import 'package:poutine_time/model/Templates/model_templates.dart';
 import 'package:poutine_time/model/post_model.dart';
@@ -14,14 +15,29 @@ class FeedPageScreen extends StatefulWidget {
 }
 
 class _FeedpageScreen extends State<FeedPageScreen> {
-  late List<PostModel> posts = []; //List to store PostModel instances
+  final PostControllerService _postControllerService = PostControllerService();
+  late List<PostModel> posts; //List to store PostModel instances
 
   @override
   void initState() {
     super.initState();
-    posts =
-        List.generate(10, (index) => PostModelTemplate().postModelTemplate())
-            .toList();
+    // posts =
+    //     List.generate(10, (index) => PostModelTemplate().postModelTemplate())
+    //         .toList();
+  }
+
+  Future<List<PostModel>> initializeData() async {
+    try {
+      // Simulate a delay or fetch the userModel from an API
+      await Future.delayed(Duration(seconds: 2));
+
+      // Fetch the post list
+      return _postControllerService.getPosts();
+    } catch (e) {
+      // Handle error
+      print('Error fetching userModel: $e');
+      rethrow;
+    }
   }
 
   Future<void> _refresh() async {
@@ -30,8 +46,8 @@ class _FeedpageScreen extends State<FeedPageScreen> {
 
     // Add 5 more PostModel instances on top of the existing list
     setState(() {
-      posts.addAll(
-          List.generate(5, (index) => PostModelTemplate().postModelTemplate()));
+      // posts.addAll(
+      //     List.generate(5, (index) => PostModelTemplate().postModelTemplate()));
     });
     print("Refresh");
   }
@@ -74,15 +90,16 @@ class _FeedpageScreen extends State<FeedPageScreen> {
     );
   }
 
-  Widget bodyWidget() {
+  Widget bodyWidget(snapshot) {
+    // Display the posts
     return RefreshIndicator(
       onRefresh: _refresh,
       child: ListView.builder(
-        itemCount: posts.length,
+        itemCount: snapshot.data!.length,
         itemBuilder: (BuildContext context, int index) {
           return Padding(
             padding: const EdgeInsets.only(bottom: 16),
-            child: PostWidget(postModel: posts[index]),
+            child: PostWidget(postModel: snapshot.data![index]),
           );
         },
       ),
@@ -92,8 +109,29 @@ class _FeedpageScreen extends State<FeedPageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: feedAppBar(widget.userController.getUsername()),
-      body: bodyWidget(),
-    );
+        appBar: feedAppBar(widget.userController.getUsername()),
+        body: FutureBuilder<List<PostModel>>(
+          future: initializeData(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              // Display a loading circle while waiting for data
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.hasError) {
+              // Display an error message if there is an error
+              return Center(
+                child: Text('Error: ${snapshot.error}'),
+              );
+            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              // Display a message if the data is empty
+              return Center(
+                child: Text('Empty'),
+              );
+            } else {
+              return bodyWidget(snapshot);
+            }
+          },
+        ));
   }
 }

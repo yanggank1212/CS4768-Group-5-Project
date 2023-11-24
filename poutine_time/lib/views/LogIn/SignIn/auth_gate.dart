@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:poutine_time/controller/user_controller.dart';
 import 'package:poutine_time/model/user_model.dart';
 import 'package:poutine_time/views/Home/home_page.dart';
+import 'package:poutine_time/views/LogIn/SignIn/login_page.dart';
 import 'package:poutine_time/views/loading_page.dart';
 import 'package:poutine_time/views/LogIn/SignIn/signin_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -34,10 +35,10 @@ class _AuthPage extends State<AuthPage> {
               //Log In Button
               onPressed: () {
                 // Navigate to the Log In screen
-                // Navigator.pushReplacement(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => LoginScreen()),
-                // );
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                );
               },
               child: Text('Log In'),
             ),
@@ -46,7 +47,7 @@ class _AuthPage extends State<AuthPage> {
               //Sign Up Button
               onPressed: () {
                 // Navigate to the Sign Up screen
-                Navigator.pushReplacement(
+                Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => SignUpPage()),
                 );
