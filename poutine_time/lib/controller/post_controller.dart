@@ -43,6 +43,7 @@ class PostControllerService {
           .collection('postCollection')
           .doc('postList')
           .collection('posts')
+          .orderBy('release_date', descending: true)
           .get();
 
       return querySnapshot.docs
