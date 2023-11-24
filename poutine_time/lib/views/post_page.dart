@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:poutine_time/model/post_model.dart';
+import 'components/post_widget.dart';
 
 class PostPageScreen extends StatefulWidget {
   final PostModel postModel;
@@ -20,7 +21,20 @@ class _PostPageScreenState extends State<PostPageScreen> {
       appBar: AppBar(
         title: const Text('Post Details'),
       ),
-      body: Container(), // Completely blank container
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            PostWidget(
+              postModel: widget.postModel,
+              displayUsername: true,
+              displayPostOption: true,
+              displayInteractions: true,
+              displayReleaseDate: true,
+              isTappable: false,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

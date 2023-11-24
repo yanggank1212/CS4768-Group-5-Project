@@ -10,6 +10,7 @@ class PostWidget extends StatelessWidget {
   bool displayPostOption;
   bool displayInteractions;
   bool displayReleaseDate;
+  bool isTappable;
 
   PostWidget({
     super.key,
@@ -18,6 +19,8 @@ class PostWidget extends StatelessWidget {
     this.displayPostOption = false,
     this.displayInteractions = false,
     this.displayReleaseDate = false,
+    // this variable is used to tap the post only on pages that allows it
+    this.isTappable = true,
   });
 
   void onThumbsUpPressed() {
@@ -208,15 +211,14 @@ class PostWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        //Navigate to Postpage Screen when PostWidget is clicked
+      onTap: isTappable ? () {
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => PostPageScreen(postModel: postModel),
           ),
         );
-      },
+      } : null,
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(color: const Color(0xff000000)),
