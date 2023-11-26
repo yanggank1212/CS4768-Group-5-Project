@@ -8,7 +8,8 @@ class PostControllerService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  late PostModel postModel;
+  //late PostModel postModel;
+  late List<PostModel> postList;
   final CollectionReference postCollection;
 
   PostControllerService()
@@ -57,6 +58,14 @@ class PostControllerService {
       print("Error: ${e.toString()}");
       return [];
     }
+  }
+
+  void setPostList(List<PostModel> _postsList) {
+    this.postList = _postsList;
+  }
+
+  List<PostModel> getPostList() {
+    return postList;
   }
 
 // Method to get the username by ID

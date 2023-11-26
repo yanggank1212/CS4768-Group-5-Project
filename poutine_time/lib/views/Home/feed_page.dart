@@ -8,36 +8,21 @@ import '../components/post_widget.dart';
 
 class FeedPageScreen extends StatefulWidget {
   final UserController userController;
-  FeedPageScreen({Key? key, required this.userController}) : super(key: key);
+  final PostControllerService postController;
+  FeedPageScreen(
+      {Key? key, required this.userController, required this.postController})
+      : super(key: key);
 
   @override
   State<FeedPageScreen> createState() => _FeedpageScreen();
 }
 
 class _FeedpageScreen extends State<FeedPageScreen> {
-  final PostControllerService _postControllerService = PostControllerService();
-  late List<PostModel> posts; //List to store PostModel instances
+  //late List<PostModel> postList; //List to store PostModel instances
 
   @override
   void initState() {
     super.initState();
-    // posts =
-    //     List.generate(10, (index) => PostModelTemplate().postModelTemplate())
-    //         .toList();
-  }
-
-  Future<List<PostModel>> initializeData() async {
-    try {
-      // Simulate a delay or fetch the userModel from an API
-      await Future.delayed(Duration(seconds: 2));
-
-      // Fetch the post list
-      return _postControllerService.getPosts();
-    } catch (e) {
-      // Handle error
-      print('Error fetching userModel: $e');
-      rethrow;
-    }
   }
 
   Future<void> _refresh() async {
@@ -90,16 +75,23 @@ class _FeedpageScreen extends State<FeedPageScreen> {
     );
   }
 
-  Widget bodyWidget(snapshot) {
+  Widget bodyWidget(List<PostModel> postLists) {
+    if (postLists.isEmpty) {
+      // Display a message when the list is empty
+      return Center(
+        child: Text('Empty List'),
+      );
+    }
+
     // Display the posts
     return RefreshIndicator(
       onRefresh: _refresh,
       child: ListView.builder(
-        itemCount: snapshot.data!.length,
+        itemCount: postLists.length,
         itemBuilder: (BuildContext context, int index) {
           return Padding(
             padding: const EdgeInsets.only(bottom: 16),
-            child: PostWidget(postModel: snapshot.data![index]),
+            child: PostWidget(postModel: postLists[index]),
           );
         },
       ),
@@ -110,28 +102,6 @@ class _FeedpageScreen extends State<FeedPageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: feedAppBar(widget.userController.getUsername()),
-        body: FutureBuilder<List<PostModel>>(
-          future: initializeData(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              // Display a loading circle while waiting for data
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (snapshot.hasError) {
-              // Display an error message if there is an error
-              return Center(
-                child: Text('Error: ${snapshot.error}'),
-              );
-            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              // Display a message if the data is empty
-              return Center(
-                child: Text('Empty'),
-              );
-            } else {
-              return bodyWidget(snapshot);
-            }
-          },
-        ));
+        body: bodyWidget(widget.postController.getPostList()));
   }
 }

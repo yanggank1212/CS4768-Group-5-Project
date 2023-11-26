@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:poutine_time/controller/post_controller.dart';
 import 'package:poutine_time/model/user_model.dart';
 import 'package:poutine_time/views/Home/createPost_page.dart';
 import 'package:poutine_time/views/Home/accounts_page.dart';
@@ -9,7 +10,10 @@ import 'feed_page.dart';
 
 class HomePageScreen extends StatefulWidget {
   final UserController userController;
-  HomePageScreen({Key? key, required this.userController}) : super(key: key);
+  final PostControllerService postController;
+  HomePageScreen(
+      {Key? key, required this.userController, required this.postController})
+      : super(key: key);
 
   @override
   State<HomePageScreen> createState() => _HomePageScreen();
@@ -38,7 +42,10 @@ class _HomePageScreen extends State<HomePageScreen> {
   Widget build(BuildContext context) {
     final List<Widget> _pages = [
       //Pass Usercontroller to these 3 pages
-      FeedPageScreen(userController: widget.userController),
+      FeedPageScreen(
+        userController: widget.userController,
+        postController: widget.postController,
+      ),
       CreatePostPageScreen(userController: widget.userController),
       AccountsPage(userController: widget.userController),
     ];

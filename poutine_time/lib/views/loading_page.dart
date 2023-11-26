@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:poutine_time/controller/post_controller.dart';
 import 'package:poutine_time/controller/user_controller.dart';
+import 'package:poutine_time/model/post_model.dart';
 import 'package:poutine_time/model/user_model.dart';
 import 'package:poutine_time/views/Home/home_page.dart';
 
@@ -12,24 +14,36 @@ class LoadingScreen extends StatefulWidget {
 
 class _LoadingScreenState extends State<LoadingScreen> {
   UserController userController = UserController();
-  late Future<UserModel> userModelFuture;
+  PostControllerService postControllerService = PostControllerService();
+
+  late Future<Map<String, dynamic>> initDataFuture;
 
   @override
   void initState() {
     super.initState();
-    userModelFuture = initializeData();
+    initDataFuture = initializeData();
   }
 
-  Future<UserModel> initializeData() async {
+  Future<Map<String, dynamic>> initializeData() async {
     try {
       // Simulate a delay or fetch the userModel from an API
       await Future.delayed(Duration(seconds: 2));
 
-      // Fetch the userModel
-      return userController.getUserModelData();
+      // Fetch both the Post List and the userModel concurrently
+      var futures = <Future>[
+        postControllerService.getPosts(),
+        userController.getUserModelData(),
+      ];
+
+      var results = await Future.wait(futures);
+
+      return {
+        'postsList': results[0] as List<PostModel>,
+        'userModel': results[1] as UserModel,
+      };
     } catch (e) {
       // Handle error
-      print('Error fetching userModel: $e');
+      print('Error fetching data: $e');
       rethrow; // Rethrow the exception to mark it as handled
     }
   }
@@ -38,8 +52,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: FutureBuilder<UserModel>(
-          future: userModelFuture,
+        child: FutureBuilder<Map<String, dynamic>>(
+          future: initDataFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               // Show a loading indicator while waiting for the data
@@ -64,14 +78,19 @@ class _LoadingScreenState extends State<LoadingScreen> {
             } else {
               // Data has been loaded, navigate to HomePageScreen
               WidgetsBinding.instance.addPostFrameCallback((_) {
-                UserModel userModel = snapshot.data!;
+                Map<String, dynamic> data = snapshot.data!;
+                List<PostModel> postsList = data['postsList'];
+                UserModel userModel = data['userModel'];
                 userController.setUserModel(userModel);
+                postControllerService.setPostList(postsList);
                 //Pass userController (it contains userModel) to the HomePageScreen
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        HomePageScreen(userController: userController),
+                    builder: (context) => HomePageScreen(
+                      userController: userController,
+                      postController: postControllerService,
+                    ),
                   ),
                 );
               });

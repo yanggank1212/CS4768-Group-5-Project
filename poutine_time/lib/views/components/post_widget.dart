@@ -15,10 +15,10 @@ class PostWidget extends StatelessWidget {
   PostWidget({
     super.key,
     required this.postModel,
-    this.displayUsername = false,
-    this.displayPostOption = false,
-    this.displayInteractions = false,
-    this.displayReleaseDate = false,
+    this.displayUsername = true,
+    this.displayPostOption = true,
+    this.displayInteractions = true,
+    this.displayReleaseDate = true,
     // this variable is used to tap the post only on pages that allows it
     this.isTappable = true,
   });
@@ -211,14 +211,16 @@ class PostWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: isTappable ? () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => PostPageScreen(postModel: postModel),
-          ),
-        );
-      } : null,
+      onTap: isTappable
+          ? () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PostPageScreen(postModel: postModel),
+                ),
+              );
+            }
+          : null,
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(color: const Color(0xff000000)),
@@ -228,11 +230,12 @@ class PostWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             //Top Container
-            topCointainerWidget(true, true),
+            topCointainerWidget(displayUsername, displayPostOption),
             // Middle Container
             middleContainerWidget(),
             // Bottom Container
-            bottomContainerWidget(context, true, true),
+            bottomContainerWidget(
+                context, displayInteractions, displayReleaseDate),
           ],
         ),
       ),

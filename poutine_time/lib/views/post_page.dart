@@ -26,10 +26,6 @@ class _PostPageScreenState extends State<PostPageScreen> {
           children: [
             PostWidget(
               postModel: widget.postModel,
-              displayUsername: true,
-              displayPostOption: true,
-              displayInteractions: true,
-              displayReleaseDate: true,
               isTappable: false,
             ),
           ],
