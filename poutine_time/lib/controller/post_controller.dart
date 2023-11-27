@@ -60,6 +60,51 @@ class PostControllerService {
     }
   }
 
+  Future<void> updatePostComment(
+      String? documentId, String newCommentId) async {
+    try {
+      await postCollection.doc(documentId).update({
+        'comments': FieldValue.arrayUnion([newCommentId]),
+      });
+
+      // Update the post in the local postList
+      PostModel updatedPost =
+          postList.firstWhere((post) => post.id == documentId);
+      updatedPost.comments.add(newCommentId);
+    } on FirebaseException catch (dbError) {
+      // Handle Firestore database errors
+      print("Database Error: ${dbError.message}");
+      rethrow;
+    } catch (e) {
+      // Handle any other errors
+      print("Error: ${e.toString()}");
+      rethrow;
+    }
+  }
+
+  Future<PostModel> fetchPostById(String postId) async {
+    try {
+      DocumentSnapshot<Object?> postSnapshot =
+          await postCollection.doc(postId).get();
+
+      if (postSnapshot.exists) {
+        return PostModel.fromMap(
+            postSnapshot.data() as Map<String, dynamic>, postSnapshot.id);
+      } else {
+        // Post with the specified ID not found
+        throw Exception('Post not found');
+      }
+    } on FirebaseException catch (e) {
+      // Handle Firestore database errors
+      print("Database Error: ${e.message}");
+      rethrow;
+    } catch (e) {
+      // Handle any other errors
+      print("Error: ${e.toString()}");
+      rethrow;
+    }
+  }
+
   void setPostList(List<PostModel> _postsList) {
     this.postList = _postsList;
   }

@@ -8,8 +8,7 @@ import 'package:provider/provider.dart';
 import '../../theme_provider.dart';
 
 class AccountsPage extends StatelessWidget {
-  final UserController userController;
-  AccountsPage({super.key, required this.userController});
+  AccountsPage({super.key});
 
   @override
   Widget build(BuildContext context) {

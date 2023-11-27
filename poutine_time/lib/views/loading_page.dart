@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:poutine_time/controller/post_controller.dart';
+import 'package:poutine_time/controller/state_manager.dart';
 import 'package:poutine_time/controller/user_controller.dart';
 import 'package:poutine_time/model/post_model.dart';
 import 'package:poutine_time/model/user_model.dart';
@@ -13,8 +14,8 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  UserController userController = UserController();
-  PostControllerService postControllerService = PostControllerService();
+  // UserController userController = UserController();
+  // PostControllerService postControllerService = PostControllerService();
 
   late Future<Map<String, dynamic>> initDataFuture;
 
@@ -31,8 +32,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
       // Fetch both the Post List and the userModel concurrently
       var futures = <Future>[
-        postControllerService.getPosts(),
-        userController.getUserModelData(),
+        StateManager.postController.getPosts(),
+        StateManager.userController.getUserModelData(),
       ];
 
       var results = await Future.wait(futures);
@@ -81,16 +82,13 @@ class _LoadingScreenState extends State<LoadingScreen> {
                 Map<String, dynamic> data = snapshot.data!;
                 List<PostModel> postsList = data['postsList'];
                 UserModel userModel = data['userModel'];
-                userController.setUserModel(userModel);
-                postControllerService.setPostList(postsList);
+                StateManager.userController.setUserModel(userModel);
+                StateManager.postController.setPostList(postsList);
                 //Pass userController (it contains userModel) to the HomePageScreen
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => HomePageScreen(
-                      userController: userController,
-                      postController: postControllerService,
-                    ),
+                    builder: (context) => HomePageScreen(),
                   ),
                 );
               });

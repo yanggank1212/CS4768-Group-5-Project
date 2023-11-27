@@ -18,7 +18,8 @@ class PostModel {
   List<String> likes;
   List<String> dislikes;
   final DateTime release_date;
-  //List<String> comments = <String>[];
+  List<String> comments;
+  String threadFather; // To know if a post is the child of another post
 
   UserController userController = UserController();
 
@@ -31,10 +32,12 @@ class PostModel {
     required this.release_date,
     List<String>? likes,
     List<String>? dislikes,
-    // List<String>? comments
+    List<String>? comments,
+    String? threadFather,
   })  : this.likes = likes ?? [],
-        this.dislikes = dislikes ?? [];
-  // this.comments = comments ?? [];
+        this.dislikes = dislikes ?? [],
+        this.comments = comments ?? [],
+        this.threadFather = threadFather ?? "";
 
   Map<String, dynamic> toMap() {
     return {
@@ -44,7 +47,8 @@ class PostModel {
       'release_date': Timestamp.fromDate(release_date),
       'likes': likes,
       'dislikes': dislikes,
-      //'comments': comments ?? <String>[],
+      'comments': comments,
+      'threadFather': threadFather,
     };
   }
 
@@ -57,7 +61,8 @@ class PostModel {
       release_date: (map['release_date'] as Timestamp).toDate(),
       likes: List<String>.from(map['likes'] ?? []),
       dislikes: List<String>.from(map['dislikes'] ?? []),
-      //comments: List<String>.from(map['comments'] ?? []),
+      comments: List<String>.from(map['comments'] ?? []),
+      threadFather: map['threadFather'] ?? '',
     );
   }
 
@@ -70,5 +75,14 @@ class PostModel {
     print('Likes: $likes');
     print('Dislikes: $dislikes');
     print('Release Date: $release_date');
+    print('Comments (IDs): $comments');
+  }
+
+  void addComment(String commentId) {
+    if (!comments.contains(commentId)) {
+      comments.add(commentId);
+    } else {
+      print('Comment ID $commentId is already in the list.');
+    }
   }
 }

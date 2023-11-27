@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:poutine_time/controller/state_manager.dart';
 import 'package:poutine_time/firebase_options.dart';
 import 'package:poutine_time/views/Home/home_page.dart';
 
@@ -13,6 +14,9 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  StateManager.initialize();
+
   runApp(const MainApp());
 }
 

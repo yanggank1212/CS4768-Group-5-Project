@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:poutine_time/controller/state_manager.dart';
 import 'package:poutine_time/controller/user_controller.dart';
 import 'package:poutine_time/model/post_model.dart';
 import 'package:poutine_time/controller/post_controller.dart';
+import 'package:poutine_time/model/user_model.dart';
+import 'package:poutine_time/views/Home/home_page.dart';
 
 class CreatePostPageScreen extends StatefulWidget {
-  final UserController userController;
-
-  const CreatePostPageScreen({Key? key, required this.userController})
-      : super(key: key);
+  const CreatePostPageScreen({Key? key}) : super(key: key);
 
   @override
   _CreatePostPageScreenState createState() => _CreatePostPageScreenState();
@@ -16,7 +16,6 @@ class CreatePostPageScreen extends StatefulWidget {
 
 class _CreatePostPageScreenState extends State<CreatePostPageScreen> {
   final TextEditingController _descriptionController = TextEditingController();
-  final PostControllerService _postControllerService = PostControllerService();
   bool _isLoading = false;
 
   Future<void> _createPost() async {
@@ -32,8 +31,8 @@ class _CreatePostPageScreenState extends State<CreatePostPageScreen> {
     try {
       // Create a new PostModel instance with the necessary data
       PostModel newPost = PostModel(
-        userID: widget.userController.getUserID()!,
-        username: widget.userController.getUsername(),
+        userID: StateManager.userController.getUserID()!,
+        username: StateManager.userController.getUsername(),
         description: _descriptionController.text,
         release_date: DateTime.now(), // Use current date and time
         likes: [], // Initializing likes as empty
@@ -41,13 +40,22 @@ class _CreatePostPageScreenState extends State<CreatePostPageScreen> {
       );
 
       DocumentReference<Object?> documentReference =
-          await _postControllerService.addPost(newPost);
+          await StateManager.postController.addPost(newPost);
 
       _message();
 
+      // Navigate back after the post is submitted
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePageScreen(),
+        ),
+      );
+
       // Handle post creation success
     } catch (e) {
-      //Later
+      print("Error creating post: $e");
+      // Display an error message to the user if needed.
     } finally {
       setState(() {
         _isLoading = false;
