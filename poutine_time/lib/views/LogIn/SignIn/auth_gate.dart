@@ -3,13 +3,15 @@
 ///
 
 import 'package:flutter/material.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:poutine_time/controller/user_controller.dart';
 import 'package:poutine_time/model/user_model.dart';
 import 'package:poutine_time/views/Home/home_page.dart';
 import 'package:poutine_time/views/LogIn/SignIn/login_page.dart';
 import 'package:poutine_time/views/loading_page.dart';
 import 'package:poutine_time/views/LogIn/SignIn/signin_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
+import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -21,8 +23,7 @@ class AuthPage extends StatefulWidget {
 class _AuthPage extends State<AuthPage> {
   FirebaseAuth auth = FirebaseAuth.instance;
 
-  @override
-  Widget build(BuildContext context) {
+  Widget prevWidget(context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Welcome'),
@@ -82,6 +83,28 @@ class _AuthPage extends State<AuthPage> {
           ],
         ),
       ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return SignInScreen(
+            providers: [
+              EmailAuthProvider(),
+              GoogleProvider(
+                  clientId:
+                      '1005533365455-0qhc3jkaum9kh4d6f8g174so5oudctef.apps.googleusercontent.com')
+            ],
+            headerBuilder: null,
+          );
+        }
+
+        return LoadingScreen();
+      },
     );
   }
 }

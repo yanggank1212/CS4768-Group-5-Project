@@ -47,12 +47,14 @@ class _CommentPageScreenState extends State<CommentPageScreen> {
       _message();
 
       // Navigate back after the post is submitted
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomePageScreen(),
-        ),
-      );
+      // Navigator.pushReplacement(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) => HomePageScreen(),
+      //   ),
+      // );
+
+      Navigator.pop(context);
     } catch (e) {
       print("Error creating post: $e");
       // Display an error message to the user if needed.

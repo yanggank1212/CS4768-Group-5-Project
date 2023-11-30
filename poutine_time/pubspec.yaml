@@ -8,8 +8,8 @@ environment:
 
 dependencies:
   cloud_firestore: ^4.13.1
-  firebase_auth: ^4.14.0
-  firebase_core: ^2.22.0
+  firebase_auth: ^4.15.0
+  firebase_core: ^2.24.0
   firebase_ui_auth: ^1.10.0
   flutter:
     sdk: flutter
@@ -19,6 +19,7 @@ dependencies:
   shared_preferences: ^2.2.2
   google_sign_in: ^6.1.6
   http: ^1.1.0
+  firebase_ui_oauth_google: ^1.2.14
 
 dev_dependencies:
   flutter_test: 
