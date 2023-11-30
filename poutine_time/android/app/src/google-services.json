@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "1005533365455",
+    "project_id": "poutine-time-login",
+    "storage_bucket": "poutine-time-login.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1005533365455:android:52195eb8b19be79a0f63ba",
+        "android_client_info": {
+          "package_name": "com.example.cheese20231108"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1005533365455-0qhc3jkaum9kh4d6f8g174so5oudctef.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzEl777dj5b3iVS2DWaUTsv_oTx7pbfFM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1005533365455-0qhc3jkaum9kh4d6f8g174so5oudctef.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1005533365455-1lggn73dcihme2pkmrpaoa8er2br22cj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.poutineTime"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1005533365455:android:fc39c5d2241a53bf0f63ba",
+        "android_client_info": {
+          "package_name": "com.example.poutine_time"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1005533365455-0qhc3jkaum9kh4d6f8g174so5oudctef.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzEl777dj5b3iVS2DWaUTsv_oTx7pbfFM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1005533365455-0qhc3jkaum9kh4d6f8g174so5oudctef.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1005533365455-1lggn73dcihme2pkmrpaoa8er2br22cj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.poutineTime"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
