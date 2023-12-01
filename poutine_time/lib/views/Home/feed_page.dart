@@ -83,7 +83,7 @@ class _FeedpageScreen extends State<FeedPageScreen> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: Text(
-              username!,
+              username ??= "No Name",
               style: const TextStyle(
                 fontFamily: 'JetBrains Mono',
                 fontSize: 20,
