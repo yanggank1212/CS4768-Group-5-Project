@@ -60,7 +60,7 @@ class _FeedpageScreen extends State<FeedPageScreen> {
     print("Refresh");
   }
 
-  PreferredSizeWidget feedAppBar(String username) {
+  PreferredSizeWidget feedAppBar(String? username) {
     return AppBar(
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -83,7 +83,7 @@ class _FeedpageScreen extends State<FeedPageScreen> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: Text(
-              username,
+              username!,
               style: const TextStyle(
                 fontFamily: 'JetBrains Mono',
                 fontSize: 20,
@@ -132,7 +132,7 @@ class _FeedpageScreen extends State<FeedPageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: feedAppBar(StateManager.userController.getUsername()),
+        appBar: feedAppBar(StateManager.user.displayName),
         body: bodyWidget(StateManager.postController.getPostList()));
   }
 }

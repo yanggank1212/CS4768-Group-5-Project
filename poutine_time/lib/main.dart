@@ -11,6 +11,7 @@ import 'views/LogIn/SignIn/signin_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -37,7 +38,7 @@ class MainApp extends StatelessWidget {
                 ? ThemeData.dark()
                 : ThemeData
                     .light(), // Apply the theme based on the current theme state
-            home: AuthPage(),
+            home: const AuthPage(),
           );
         },
       ),

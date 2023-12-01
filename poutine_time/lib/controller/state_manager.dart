@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:poutine_time/controller/post_controller.dart';
 import 'package:poutine_time/controller/user_controller.dart';
 import 'package:poutine_time/model/user_model.dart';
@@ -6,11 +7,10 @@ import 'package:poutine_time/model/user_model.dart';
 ///
 
 class StateManager {
-  static late UserController userController;
+  static late User user;
   static late PostControllerService postController;
 
   static void initialize() {
-    userController = UserController();
     postController = PostControllerService();
   }
 }

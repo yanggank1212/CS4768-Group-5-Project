@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:poutine_time/controller/post_controller.dart';
 import 'package:poutine_time/controller/state_manager.dart';
@@ -30,17 +31,17 @@ class _LoadingScreenState extends State<LoadingScreen> {
       // Simulate a delay or fetch the userModel from an API
       await Future.delayed(Duration(seconds: 2));
 
+      StateManager.user = FirebaseAuth.instance.currentUser!;
+
       // Fetch both the Post List and the userModel concurrently
       var futures = <Future>[
         StateManager.postController.getPosts(),
-        StateManager.userController.getUserModelData(),
       ];
 
       var results = await Future.wait(futures);
 
       return {
         'postsList': results[0] as List<PostModel>,
-        'userModel': results[1] as UserModel,
       };
     } catch (e) {
       // Handle error
@@ -81,8 +82,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 Map<String, dynamic> data = snapshot.data!;
                 List<PostModel> postsList = data['postsList'];
-                UserModel userModel = data['userModel'];
-                StateManager.userController.setUserModel(userModel);
                 StateManager.postController.setPostList(postsList);
                 //Pass userController (it contains userModel) to the HomePageScreen
                 Navigator.pushReplacement(

@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:poutine_time/controller/post_controller.dart';
 import 'package:poutine_time/model/post_model.dart';
@@ -39,8 +40,8 @@ class _HomePageScreen extends State<HomePageScreen> {
   Widget build(BuildContext context) {
     final List<Widget> _pages = [
       FeedPageScreen(),
-      CreatePostPageScreen(),
-      AccountsPage(),
+      const CreatePostPageScreen(),
+      const ProfileScreen(),
     ];
 
     return Scaffold(

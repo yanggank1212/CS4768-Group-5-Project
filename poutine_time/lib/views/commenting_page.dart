@@ -32,8 +32,8 @@ class _CommentPageScreenState extends State<CommentPageScreen> {
     try {
       // Create a new PostModel instance with the necessary data
       PostModel newPost = PostModel(
-          userID: StateManager.userController.getUserID()!,
-          username: StateManager.userController.getUsername(),
+          userID: StateManager.user.uid,
+          username: StateManager.user.displayName!,
           description: _commentController.text,
           release_date: DateTime.now(), // Use current date and time
           threadFather: widget.postModel.id);

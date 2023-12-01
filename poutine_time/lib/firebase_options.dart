@@ -67,6 +67,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1005533365455',
     projectId: 'poutine-time-login',
     storageBucket: 'poutine-time-login.appspot.com',
+    iosClientId: '1005533365455-1lggn73dcihme2pkmrpaoa8er2br22cj.apps.googleusercontent.com',
     iosBundleId: 'com.example.poutineTime',
   );
 
@@ -76,6 +77,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1005533365455',
     projectId: 'poutine-time-login',
     storageBucket: 'poutine-time-login.appspot.com',
+    iosClientId: '1005533365455-801t4lm1qmgiq22lbsja8ku3tkpra048.apps.googleusercontent.com',
     iosBundleId: 'com.example.poutineTime.RunnerTests',
   );
 }
