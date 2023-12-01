@@ -25,9 +25,9 @@ class _AuthPage extends State<AuthPage> {
           return SignInScreen(
             providers: [
               EmailAuthProvider(),
-              GoogleProvider(
-                  clientId:
-                      '1005533365455-k7i8cfrlm3lhsa1fs9vmfb0ltvprtqjp.apps.googleusercontent.com'),
+              // GoogleProvider(
+              //     clientId:
+              //         '1005533365455-k7i8cfrlm3lhsa1fs9vmfb0ltvprtqjp.apps.googleusercontent.com'),
             ],
           );
         }
