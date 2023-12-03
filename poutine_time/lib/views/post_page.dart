@@ -25,14 +25,8 @@ class _PostPageScreenState extends State<PostPageScreen> {
   }
 
   Future<void> _fetchComments() async {
-    List<PostModel> comments = [];
-
-    // Assuming you have a method to fetch a post by its ID
-    for (String commentId in widget.postModel.comments) {
-      PostModel commentPost =
-          await StateManager.postController.fetchPostById(commentId);
-      comments.add(commentPost);
-    }
+    List<PostModel> comments = await StateManager.postController
+        .fetchComments(widget.postModel.comments);
 
     setState(() {
       commentPosts = comments;
@@ -53,6 +47,7 @@ class _PostPageScreenState extends State<PostPageScreen> {
             padding: const EdgeInsets.only(bottom: 16),
             child: PostWidget(
               postModel: widget.postModel,
+              isTappable: false,
             ),
           ),
           // Display comments

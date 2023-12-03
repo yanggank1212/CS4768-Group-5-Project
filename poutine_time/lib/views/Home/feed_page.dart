@@ -132,7 +132,7 @@ class _FeedpageScreen extends State<FeedPageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: feedAppBar(StateManager.user.displayName),
+        appBar: feedAppBar(StateManager.userController.getUsername()),
         body: bodyWidget(StateManager.postController.getPostList()));
   }
 }

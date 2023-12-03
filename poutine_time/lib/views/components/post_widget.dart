@@ -71,7 +71,7 @@ class PostWidget extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => CommentPageScreen(
-                    postModel: postModel,
+                    fatherPost: postModel,
                   ),
                 ),
               );

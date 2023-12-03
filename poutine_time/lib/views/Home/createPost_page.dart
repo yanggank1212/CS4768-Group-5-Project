@@ -31,8 +31,8 @@ class _CreatePostPageScreenState extends State<CreatePostPageScreen> {
     try {
       // Create a new PostModel instance with the necessary data
       PostModel newPost = PostModel(
-        userID: StateManager.user.uid,
-        username: StateManager.user.displayName!,
+        userID: StateManager.userController.getUserID(),
+        username: StateManager.userController.getUsername(),
         description: _descriptionController.text,
         release_date: DateTime.now(), // Use current date and time
         likes: [], // Initializing likes as empty

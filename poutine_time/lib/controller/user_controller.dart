@@ -6,11 +6,15 @@ import 'package:poutine_time/model/Templates/model_templates.dart';
 import 'package:poutine_time/model/user_model.dart';
 
 class UserController {
-  final user = FirebaseAuth.instance.currentUser;
+  late User user;
   late UserModel userModel;
 
-  String? getUserID() {
-    return user?.uid;
+  void setUser() {
+    user = FirebaseAuth.instance.currentUser!;
+  }
+
+  String getUserID() {
+    return user.uid;
   }
 
   String getUsername() {
@@ -21,24 +25,18 @@ class UserController {
     this.userModel = userModel;
   }
 
-  Future<UserModel> getUserModelData() async {
+  Future<UserModel?> getUserModelData(String userID) async {
     try {
       // Load userList from Firestore Database "Data/userList"
       CollectionReference dataCollection =
           FirebaseFirestore.instance.collection('Data');
       DocumentSnapshot userListDoc = await dataCollection.doc('userList').get();
 
-      //If it exists get the map of the Specific userModel using the UserID as the key, if it doesnt then return the userModel template for now
-      if (userListDoc.exists) {
-        return UserModel.fromMap(userListDoc, getUserID()!);
-      } else {
-        // Handle the case where the document does not exist
-        return UserModelTemplate().userModelTemplate();
-      }
+      return UserModel.fromMap(userListDoc, userID);
     } catch (e) {
       // Handle any errors that might occur during the fetch
       print('Error fetching user model: $e');
-      return UserModelTemplate().userModelTemplate();
+      return null;
     }
   }
 }

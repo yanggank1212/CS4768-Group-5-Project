@@ -10,13 +10,11 @@ class PostControllerService {
 
   //late PostModel postModel;
   late List<PostModel> postList;
-  final CollectionReference postCollection;
+  late CollectionReference postCollection;
 
-  PostControllerService()
-      : postCollection = FirebaseFirestore.instance
-            .collection('postCollection')
-            .doc('postList')
-            .collection('posts');
+  PostControllerService() {
+    postCollection = _firestore.collection('postCollection');
+  }
 
   Future<DocumentReference<Object?>> addPost(PostModel post) async {
     try {
@@ -42,13 +40,12 @@ class PostControllerService {
     try {
       var querySnapshot = await _firestore
           .collection('postCollection')
-          .doc('postList')
-          .collection('posts')
           .orderBy('release_date', descending: true)
           .get();
 
       return querySnapshot.docs
           .map((doc) => PostModel.fromMap(doc.data(), doc.id))
+          .where((post) => post.threadFather == "")
           .toList();
     } on FirebaseException catch (dbError) {
       // Handling Firestore database errors
@@ -60,17 +57,19 @@ class PostControllerService {
     }
   }
 
-  Future<void> updatePostComment(
-      String? documentId, String newCommentId) async {
+  Future<void> addComment(String? fatherID, PostModel comment) async {
     try {
-      await postCollection.doc(documentId).update({
-        'comments': FieldValue.arrayUnion([newCommentId]),
-      });
+      //Add the comment to the post collection
+      // DocumentReference commentDocRef =
+      //     await postCollection.add(comment.toMap());
 
-      // Update the post in the local postList
-      PostModel updatedPost =
-          postList.firstWhere((post) => post.id == documentId);
-      updatedPost.comments.add(newCommentId);
+      DocumentReference<Object?> commentRef = await addPost(comment);
+
+      print("Hello");
+      // Update the father's comments list with the comment ID
+      await postCollection.doc(fatherID).update({
+        'comments': FieldValue.arrayUnion([commentRef.id]),
+      });
     } on FirebaseException catch (dbError) {
       // Handle Firestore database errors
       print("Database Error: ${dbError.message}");
@@ -82,10 +81,10 @@ class PostControllerService {
     }
   }
 
-  Future<PostModel> fetchPostById(String postId) async {
+  Future<PostModel> fetchComment(String commentID) async {
     try {
       DocumentSnapshot<Object?> postSnapshot =
-          await postCollection.doc(postId).get();
+          await postCollection.doc(commentID).get();
 
       if (postSnapshot.exists) {
         return PostModel.fromMap(
@@ -100,6 +99,22 @@ class PostControllerService {
       rethrow;
     } catch (e) {
       // Handle any other errors
+      print("Error: ${e.toString()}");
+      rethrow;
+    }
+  }
+
+  Future<List<PostModel>> fetchComments(List<String> comments) async {
+    List<PostModel> commentsList = [];
+
+    try {
+      // Assuming you have a method to fetch a post by its ID
+      for (String commentId in comments) {
+        PostModel commentPost = await fetchComment(commentId);
+        commentsList.add(commentPost);
+      }
+      return commentsList;
+    } catch (e) {
       print("Error: ${e.toString()}");
       rethrow;
     }

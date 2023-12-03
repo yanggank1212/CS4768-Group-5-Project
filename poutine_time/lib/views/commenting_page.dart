@@ -10,9 +10,9 @@ import 'package:poutine_time/views/Home/home_page.dart';
 import 'package:poutine_time/views/components/post_widget.dart'; // Import your PostModel class
 
 class CommentPageScreen extends StatefulWidget {
-  final PostModel postModel;
+  final PostModel fatherPost;
 
-  const CommentPageScreen({Key? key, required this.postModel})
+  const CommentPageScreen({Key? key, required this.fatherPost})
       : super(key: key);
 
   @override
@@ -31,18 +31,19 @@ class _CommentPageScreenState extends State<CommentPageScreen> {
     //Create post
     try {
       // Create a new PostModel instance with the necessary data
-      PostModel newPost = PostModel(
-          userID: StateManager.user.uid,
-          username: StateManager.user.displayName!,
+      PostModel commentPost = PostModel(
+          userID: StateManager.userController.getUserID(),
+          username: StateManager.userController.getUsername(),
           description: _commentController.text,
           release_date: DateTime.now(), // Use current date and time
-          threadFather: widget.postModel.id);
+          threadFather: widget.fatherPost.id);
 
-      DocumentReference<Object?> documentReference =
-          await StateManager.postController.addPost(newPost);
+      // DocumentReference<Object?> documentReference =
+      //     await StateManager.postController.addPost(newPost);
 
-      StateManager.postController
-          .updatePostComment(widget.postModel.id, documentReference.id);
+      StateManager.postController.addComment(widget.fatherPost.id, commentPost);
+      // StateManager.postController
+      //     .updatePostComment(widget.postModel.id, documentReference.id);
 
       _message();
 
@@ -71,7 +72,7 @@ class _CommentPageScreenState extends State<CommentPageScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           PostWidget(
-            postModel: widget.postModel,
+            postModel: widget.fatherPost,
             displayInteractions: false,
             displayPostOption: false,
             isTappable: false,

@@ -7,10 +7,12 @@ import 'package:poutine_time/model/user_model.dart';
 ///
 
 class StateManager {
-  static late User user;
+  // static late User user;
   static late PostControllerService postController;
+  static late UserController userController;
 
   static void initialize() {
     postController = PostControllerService();
+    userController = UserController();
   }
 }

@@ -15,6 +15,8 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
 
   String _errorMessage = '';
@@ -30,10 +32,20 @@ class _SignUpPageState extends State<SignUpPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            TextField(
+              controller: _emailController,
+              decoration: InputDecoration(labelText: 'Email'),
+            ),
             SizedBox(height: 16.0),
             TextField(
               controller: _usernameController,
               decoration: InputDecoration(labelText: 'Username'),
+            ),
+            SizedBox(height: 16.0),
+            TextField(
+              controller: _passwordController,
+              decoration: InputDecoration(labelText: 'Password'),
+              obscureText: true,
             ),
             SizedBox(height: 16.0),
             ElevatedButton(
@@ -42,6 +54,11 @@ class _SignUpPageState extends State<SignUpPage> {
               },
               child: Text('Sign Up'),
             ),
+            // SizedBox(height: 16.0),
+            // ElevatedButton(
+            //   onPressed: _signInWithGoogle,
+            //   child: Text('Sign in with Google'),
+            // ),
           ],
         ),
       ),
@@ -49,9 +66,20 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Future<void> _signUp() async {
+    final String email = _emailController.text.trim();
+    final String password = _passwordController.text.trim();
     final String username = _usernameController.text.trim();
 
     try {
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      //Awaiting Domain Verification
+      //await userCredential.user!.sendEmailVerification();
+
       // // Show a SnackBar for successful sign-up
       // ScaffoldMessenger.of(context).showSnackBar(
       //   SnackBar(
@@ -59,25 +87,39 @@ class _SignUpPageState extends State<SignUpPage> {
       //   ),
       // );
 
+      // // Check if email is verified
+      // if (userCredential.user!.emailVerified) {
+      //   // Optionally, you can sign out the user after account creation.
+      //   // _auth.signOut();
+      // } else {
+      //   // If email is not verified, delete the created user account.
+      //   await userCredential.user!.delete();
+      //   ScaffoldMessenger.of(context).showSnackBar(
+      //     SnackBar(
+      //       content: Text('Email not verified. Account deleted.'),
+      //     ),
+      //   );
+      // }
+
       //Create UserModel
-      User? user = _auth.currentUser;
+      User? user = userCredential.user;
       String userID = user!.uid;
       UserModel userModel = UserModel(username: username);
+      user.updateDisplayName(username);
 
-      print(userModel);
       //Store User information on Data/UserList
-      // await _firestore
-      //     .collection('Data')
-      //     .doc("userList")
-      //     .update({userID: userModel.toMap()});
+      await _firestore
+          .collection('Data')
+          .doc("userList")
+          .update({userID: userModel.toMap()});
 
       //Navigate to HomePage
-      // Navigator.pushReplacement(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (context) => LoadingScreen(),
-      //   ),
-      // );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LoadingScreen(),
+        ),
+      );
     } on FirebaseAuthException catch (e) {
       setState(() {
         _errorMessage = e.message ?? 'An error occurred';
@@ -85,64 +127,65 @@ class _SignUpPageState extends State<SignUpPage> {
     }
   }
 
-  // Future<void> _signInWithGoogle() async {
-  //   /*final String email = _emailController.text.trim();
-  //   final String password = _passwordController.text.trim();*/
-  //   final String username = _usernameController.text.trim();
+  /* Future<void> _signInWithGoogle() async {
+    /*final String email = _emailController.text.trim();
+    final String password = _passwordController.text.trim();*/
+    final String username = _usernameController.text.trim();
 
-  //   try {
-  //     final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+    try {
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
-  //     final GoogleSignInAuthentication? googleAuth =
-  //         await googleUser?.authentication;
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
 
-  //     if (googleAuth == null) {
-  //       throw FirebaseAuthException(
-  //         code: 'ERROR_MISSING_GOOGLE_AUTH_TOKEN',
-  //         message: 'Missing Google Auth Token',
-  //       );
-  //     }
+      if (googleAuth == null) {
+        throw FirebaseAuthException(
+          code: 'ERROR_MISSING_GOOGLE_AUTH_TOKEN',
+          message: 'Missing Google Auth Token',
+        );
+      }
 
-  //     final AuthCredential credential = GoogleAuthProvider.credential(
-  //       accessToken: googleAuth.accessToken,
-  //       idToken: googleAuth.idToken,
-  //     );
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
 
-  //     UserCredential userCredential =
-  //         await _auth.signInWithCredential(credential);
-  //     User? user = userCredential.user;
-  //     if (user == null) {
-  //       throw FirebaseAuthException(
-  //         code: 'ERROR_FAILED_TO_SIGN_IN_WITH_GOOGLE',
-  //         message: 'Failed to sign in with Google',
-  //       );
-  //     }
+      UserCredential userCredential =
+          await _auth.signInWithCredential(credential);
+      User? user = userCredential.user;
+      if (user == null) {
+        throw FirebaseAuthException(
+          code: 'ERROR_FAILED_TO_SIGN_IN_WITH_GOOGLE',
+          message: 'Failed to sign in with Google',
+        );
+      }
 
-  //     //User? user = userCredential.user;
-  //     String userID = user!.uid;
-  //     UserModel userModel = UserModel(username: username);
+      //User? user = userCredential.user;
+      String userID = user!.uid;
+      UserModel userModel = UserModel(username: username);
 
-  //     //Store User information on Data/UserList
-  //     await _firestore
-  //         .collection('Data')
-  //         .doc("userList")
-  //         .update({userID: userModel.toMap()});
+      //Store User information on Data/UserList
+      await _firestore
+          .collection('Data')
+          .doc("userList")
+          .update({userID: userModel.toMap()});
 
-  //     Navigator.pushReplacement(
-  //       context,
-  //       MaterialPageRoute(
-  //         builder: (context) =>
-  //             LoadingScreen(), // Navigate to home page after sign in
-  //       ),
-  //     );
-  //   } on FirebaseAuthException catch (e) {
-  //     setState(() {
-  //       _errorMessage = e.message ?? 'An error occurred during Google Sign-In';
-  //     });
-  //   } catch (e) {
-  //     setState(() {
-  //       _errorMessage = e.toString();
-  //     });
-  //   }
-  // }
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              LoadingScreen(), // Navigate to home page after sign in
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        _errorMessage = e.message ?? 'An error occurred during Google Sign-In';
+      });
+    } catch (e) {
+      setState(() {
+        _errorMessage = e.toString();
+      });
+    }
+  }
+  */
 }
