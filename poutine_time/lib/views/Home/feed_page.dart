@@ -21,6 +21,13 @@ class _FeedpageScreen extends State<FeedPageScreen> {
   void initState() {
     super.initState();
     _fetchPosts();
+
+    StateManager.postController.addListener(_onPostsChange);
+  }
+
+  void _onPostsChange() {
+    // Trigger a rebuild when posts change
+    setState(() {});
   }
 
   Future<void> _fetchPosts() async {
@@ -127,6 +134,13 @@ class _FeedpageScreen extends State<FeedPageScreen> {
         },
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    // Remove the listener when the widget is disposed
+    StateManager.postController.removeListener(_onPostsChange);
+    super.dispose();
   }
 
   @override

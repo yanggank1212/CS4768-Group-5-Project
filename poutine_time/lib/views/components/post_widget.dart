@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:poutine_time/controller/state_manager.dart';
@@ -25,24 +26,44 @@ class PostWidget extends StatelessWidget {
     this.isTappable = true,
   });
 
-  void onThumbsUpPressed() {
-    //Check if userID in the likes list
-    //  Remove userID in the likes list
-    //else
-    //  Check if userID in dislikes list
-    //    Remove userID in dislikes list
-    //  Add userID in likes list
-    print("Liked");
+  Future<void> onThumbsPressed(String fieldName) async {
+    // final userID = StateManager.userController.getUserID();
+    // final postCollection = StateManager.postController.postCollection;
+    // final postDoc = postCollection.doc(postModel.id);
+
+    // final hasLiked = postModel.likes.contains(userID);
+    // final hasDisliked = postModel.dislikes.contains(userID);
+
+    // if (hasLiked) {
+    //   await postDoc.update({
+    //     fieldName: FieldValue.arrayRemove([userID])
+    //   });
+    //   if (fieldName == 'likes') postModel.likes.remove(userID);
+    // } else if (hasDisliked) {
+    //   await postDoc.update({
+    //     fieldName: FieldValue.arrayRemove([userID])
+    //   });
+    //   if (fieldName == 'dislikes') postModel.likes.remove(userID);
+    //   return;
+    // }
+
+    // if (fieldName == 'likes')
+    //   postModel.likes.add(userID);
+    // else
+    //   postModel.dislikes.add(userID);
+    // await postDoc.update({
+    //   fieldName: FieldValue.arrayUnion([userID])
+    // });
+
+    // StateManager.postController.notifyListeners();
   }
 
-  void onThumbsDownPressed() {
-    //Check if userID in the dislikes list
-    //  Remove userID in the dislikes list
-    //else
-    //  Check if userID in the likes list
-    //    Remove userID in likes list
-    //  Add userID in likes list
-    print("Disliked");
+  Future<void> onThumbsUpPressed() async {
+    await onThumbsPressed('likes');
+  }
+
+  Future<void> onThumbsDownPressed() async {
+    await onThumbsPressed('dislikes');
   }
 
   Widget interactionButtonsWidget(BuildContext context) {
@@ -121,25 +142,56 @@ class PostWidget extends StatelessWidget {
   Widget middleContainerWidget() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      child: SizedBox(
-        width: double.infinity,
-        child: Container(
-          constraints: const BoxConstraints(
-            maxWidth: 370,
-          ),
-          child: Text(
-            postModel.description,
-            style: const TextStyle(
-              fontFamily: 'JetBrains Mono',
-              fontSize: 15,
-              fontWeight: FontWeight.w400,
-              height: 1.1,
-              color: Color(0xff000000),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: double.infinity,
+            child: Container(
+              constraints: const BoxConstraints(
+                maxWidth: 370,
+              ),
+              child: Text(
+                postModel.description,
+                style: const TextStyle(
+                  fontFamily: 'JetBrains Mono',
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400,
+                  height: 1.1,
+                  color: Color(0xff000000),
+                ),
+                maxLines: 3, //The Maximum number of lines to display
+                overflow: TextOverflow.ellipsis, //To Display (...)
+              ),
             ),
-            maxLines: 3, //The Maximum number of lines to display
-            overflow: TextOverflow.ellipsis, //To Display (...)
           ),
-        ),
+          SizedBox(
+              height: 10), // Adjust the spacing between description and images
+          if (postModel.imageUrls.isNotEmpty)
+            SizedBox(
+              height: 100,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: postModel.imageUrls.length,
+                itemBuilder: (context, index) {
+                  var imageUrl = postModel.imageUrls[index];
+                  // return Container(
+                  //   margin: const EdgeInsets.only(right: 8.0),
+                  //   width: 100,
+                  //   height: 100,
+                  //   decoration: BoxDecoration(
+                  //     image: DecorationImage(
+                  //       image: NetworkImage(imageUrl),
+                  //       fit: BoxFit.cover,
+                  //     ),
+                  //     borderRadius: BorderRadius.circular(8.0),
+                  //   ),
+                  // );
+                  Image.network(imageUrl, height: 100, width: 100);
+                },
+              ),
+            ),
+        ],
       ),
     );
   }
@@ -241,7 +293,7 @@ class InteractionButton extends StatelessWidget {
             width: 4,
           ),
           SizedBox(
-            width: 32,
+            width: 16,
             height: 16,
             child: Text(
               count.toString(),

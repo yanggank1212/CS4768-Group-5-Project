@@ -1,6 +1,7 @@
 ///  This will handle the interactions related to Post entities
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:poutine_time/model/post_model.dart';
 
@@ -8,7 +9,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
-class PostControllerService {
+class PostControllerService extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final ImagePicker _picker = ImagePicker();
@@ -16,7 +17,6 @@ class PostControllerService {
   //late PostModel postModel;
   late List<PostModel> postList;
   late CollectionReference postCollection;
-
 
   PostControllerService() {
     postCollection = _firestore.collection('postCollection');
@@ -37,7 +37,8 @@ class PostControllerService {
 
     for (File image in images) {
       // Define the file path on Firebase Storage with user-specific directory
-      String filePath = 'images/${currentUser.uid}/${DateTime.now()}_${image.path.split('/').last}';
+      String filePath =
+          'images/${currentUser.uid}/${DateTime.now()}_${image.path.split('/').last}';
 
       // Upload image
       var firebaseStorageRef = FirebaseStorage.instance.ref().child(filePath);
@@ -56,8 +57,8 @@ class PostControllerService {
     return imageUrls;
   }
 
-
-  Future<DocumentReference<Object?>> addPost(PostModel post, [List<File>? images]) async {
+  Future<DocumentReference<Object?>> addPost(PostModel post,
+      [List<File>? images]) async {
     try {
       List<String> imageUrls = [];
 
@@ -82,7 +83,6 @@ class PostControllerService {
       rethrow;
     }
   }
-
 
   Future<List<PostModel>> getPosts() async {
     try {
