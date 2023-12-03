@@ -6,6 +6,9 @@ import 'package:poutine_time/model/post_model.dart';
 import 'package:poutine_time/controller/post_controller.dart';
 import 'package:poutine_time/model/user_model.dart';
 import 'package:poutine_time/views/Home/home_page.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'dart:io';
 
 class CreatePostPageScreen extends StatefulWidget {
   const CreatePostPageScreen({Key? key}) : super(key: key);
@@ -18,6 +21,30 @@ class _CreatePostPageScreenState extends State<CreatePostPageScreen> {
   final TextEditingController _descriptionController = TextEditingController();
   bool _isLoading = false;
 
+  // For images
+
+  List<XFile> _selectedImages = [];
+
+  // Pick image from gallery
+  Future<void> _pickImageFromGallery() async {
+    XFile? selectedImage = await StateManager.postController.pickImageFromGallery();
+    if (selectedImage != null) {
+      setState(() {
+        _selectedImages.add(selectedImage);
+      });
+    }
+  }
+
+  // Pick image from camera
+  Future<void> _pickImageFromCamera() async {
+    XFile? selectedImage = await StateManager.postController.pickImageFromCamera();
+    if (selectedImage != null) {
+      setState(() {
+        _selectedImages.add(selectedImage);
+      });
+    }
+  }
+
   Future<void> _createPost() async {
     if (_descriptionController.text.isEmpty) {
       print("Fill Description");
@@ -29,6 +56,11 @@ class _CreatePostPageScreenState extends State<CreatePostPageScreen> {
     });
 
     try {
+
+      // Convert XFile to File
+      List<File> imageFiles = _selectedImages.map((xFile) => File(xFile.path)).toList();
+
+
       // Create a new PostModel instance with the necessary data
       PostModel newPost = PostModel(
         userID: StateManager.userController.getUserID(),
@@ -40,7 +72,7 @@ class _CreatePostPageScreenState extends State<CreatePostPageScreen> {
       );
 
       DocumentReference<Object?> documentReference =
-          await StateManager.postController.addPost(newPost);
+          await StateManager.postController.addPost(newPost,imageFiles);
 
       _message();
 
@@ -65,46 +97,107 @@ class _CreatePostPageScreenState extends State<CreatePostPageScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Define the colors from the logo
+    const Color maroonColor = Color(0xFF800000); // Adjust the color based on the logo
+    const Color backgroundColor = Colors.white;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create Post'),
+        title: Text(
+          'Create a poutine!',
+          style: GoogleFonts.lato(), // Applying Lato font from Google Fonts
+        ),
+        backgroundColor: maroonColor, // Use the maroon color for the app bar
       ),
       body: SingleChildScrollView(
-        // Use SingleChildScrollView to avoid overflow
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Description',
-              style: TextStyle(
-                fontSize: 18,
+            Text(
+              'What’s on your mind?',
+              style: GoogleFonts.lato( // Applying Lato font from Google Fonts
+                fontSize: 22,
                 fontWeight: FontWeight.bold,
+                color: maroonColor, // Use the maroon color for text
               ),
             ),
-            SizedBox(height: 8),
+            SizedBox(height: 10),
             TextField(
               controller: _descriptionController,
               decoration: InputDecoration(
-                hintText: 'Enter your post description here...',
-                border: OutlineInputBorder(),
-                fillColor: Colors
-                    .grey[200], // Light background color for the TextField
+                hintText: 'Share your thoughts...',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10), // Rounded corners
+                  borderSide: BorderSide(color: maroonColor), // Maroon border
+                ),
+                fillColor: backgroundColor,
                 filled: true,
               ),
-              maxLines: 5, // Increased max lines
-              minLines: 3, // Minimum lines
-              style: TextStyle(fontSize: 16), // Text style
+              maxLines: 5,
+              minLines: 3,
+              style: TextStyle(fontSize: 16),
             ),
+            SizedBox(height: 20),
+
+            // Image Upload Section
+            Text(
+              'Add Images',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                color: maroonColor, // Use the maroon color for text
+              ),
+            ),
+            SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildImageButton(
+                  icon: Icons.image,
+                  label: 'Gallery',
+                  onPressed: _pickImageFromGallery,
+                  iconColor: maroonColor, // Use the maroon color for icons
+                  textColor: maroonColor, // Use the maroon color for text
+                ),
+                _buildImageButton(
+                  icon: Icons.camera_alt,
+                  label: 'Camera',
+                  onPressed: _pickImageFromCamera,
+                  iconColor: maroonColor, // Use the maroon color for icons
+                  textColor: maroonColor, // Use the maroon color for text
+                ),
+              ],
+            ),
+            SizedBox(height: 12),
+
+            // Display selected images
+            _buildSelectedImagesSection(),
+
+            // Submit Button
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: _createPost,
-              child: const Text('Submit Post'),
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor: Theme.of(context).primaryColor, // Text color
-                padding: EdgeInsets.symmetric(
-                    horizontal: 50, vertical: 15), // Button padding
+              child: Text(
+                'Submit Post',
+                style: GoogleFonts.lato(
+                  color: Colors.white, // Text color
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(maroonColor),
+                foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                padding: MaterialStateProperty.all<EdgeInsets>(
+                  EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                ),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10), // Rounded button
+                  ),
+                ),
+                elevation: MaterialStateProperty.all<double>(5.0), // Add elevation
+                shadowColor: MaterialStateProperty.all<Color>(Colors.black.withOpacity(0.5)), // Shadow color
               ),
             ),
             if (_isLoading) ...[
@@ -116,6 +209,72 @@ class _CreatePostPageScreenState extends State<CreatePostPageScreen> {
       ),
     );
   }
+
+  // Helper method to build image selection buttons
+  Widget _buildImageButton({
+    required IconData icon,
+    required String label,
+    required VoidCallback onPressed,
+    required Color iconColor,
+    required Color textColor,
+  }) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        IconButton(
+          icon: Icon(icon, size: 30),
+          color: iconColor,
+          onPressed: onPressed,
+        ),
+        Text(label, style: TextStyle(color: textColor)),
+      ],
+    );
+  }
+
+
+// Helper method to display selected images
+  Widget _buildSelectedImagesSection() {
+    return GridView.builder(
+      shrinkWrap: true, // Use it inside a Scrollable widget
+      physics: NeverScrollableScrollPhysics(), // Disable scroll inside the grid
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3, // Number of images per row
+        crossAxisSpacing: 4, // Spacing between images
+        mainAxisSpacing: 4,
+      ),
+      itemCount: _selectedImages.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Stack(
+          alignment: Alignment.topRight,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.deepPurple), // Border color
+                borderRadius: BorderRadius.circular(8), // Rounded corners
+              ),
+              margin: EdgeInsets.all(4), // Margin around each image
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8), // Rounded corners
+                child: Image.file(
+                  File(_selectedImages[index].path),
+                  fit: BoxFit.cover, // Cover the entire space of the box
+                ),
+              ),
+            ),
+            IconButton(
+              icon: Icon(Icons.cancel, size: 20, color: Colors.red),
+              onPressed: () {
+                setState(() {
+                  _selectedImages.removeAt(index);
+                });
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 
   // Message to display after the post is submitted
   void _message() {

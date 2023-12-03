@@ -18,6 +18,7 @@ class PostModel {
   List<String> likes;
   List<String> dislikes;
   final DateTime release_date;
+  List<String> imageUrls;
   List<String> comments;
   String threadFather; // To know if a post is the child of another post
 
@@ -33,10 +34,12 @@ class PostModel {
     List<String>? likes,
     List<String>? dislikes,
     List<String>? comments,
+    List<String>? imageUrls,
     String? threadFather,
   })  : this.likes = likes ?? [],
         this.dislikes = dislikes ?? [],
         this.comments = comments ?? [],
+        this.imageUrls = imageUrls ?? [],
         this.threadFather = threadFather ?? "";
 
   Map<String, dynamic> toMap() {
@@ -48,6 +51,7 @@ class PostModel {
       'likes': likes,
       'dislikes': dislikes,
       'comments': comments,
+      'imageUrls': imageUrls,
       'threadFather': threadFather,
     };
   }
@@ -62,6 +66,7 @@ class PostModel {
       likes: List<String>.from(map['likes'] ?? []),
       dislikes: List<String>.from(map['dislikes'] ?? []),
       comments: List<String>.from(map['comments'] ?? []),
+      imageUrls: List<String>.from(map['imageUrls'] ?? []),
       threadFather: map['threadFather'] ?? '',
     );
   }
