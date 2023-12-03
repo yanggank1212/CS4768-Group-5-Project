@@ -84,12 +84,23 @@ class PostControllerService extends ChangeNotifier {
     }
   }
 
-  Future<List<PostModel>> getPosts() async {
+  Future<List<PostModel>> getPosts({String? selectedChannel}) async {
     try {
-      var querySnapshot = await _firestore
-          .collection('postCollection')
-          .orderBy('release_date', descending: true)
-          .get();
+      QuerySnapshot<Map<String, dynamic>> querySnapshot;
+
+      if (selectedChannel != null && selectedChannel != '1') {
+        print("Hello");
+        querySnapshot = await _firestore
+            .collection('postCollection')
+            .where('channel', isEqualTo: selectedChannel)
+            .orderBy('release_date', descending: true)
+            .get();
+      } else {
+        querySnapshot = await _firestore
+            .collection('postCollection')
+            .orderBy('release_date', descending: true)
+            .get();
+      }
 
       return querySnapshot.docs
           .map((doc) => PostModel.fromMap(doc.data(), doc.id))

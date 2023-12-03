@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:poutine_time/controller/post_controller.dart';
 import 'package:poutine_time/controller/state_manager.dart';
 import 'package:poutine_time/controller/user_controller.dart';
+import 'package:poutine_time/model/Templates/channels.dart';
 import 'package:poutine_time/model/Templates/model_templates.dart';
 import 'package:poutine_time/model/post_model.dart';
 import 'package:poutine_time/model/user_model.dart';
+import 'package:poutine_time/views/components/chanel_sidebar_widget.dart';
 import '../components/post_widget.dart';
 
 class FeedPageScreen extends StatefulWidget {
@@ -16,6 +18,7 @@ class FeedPageScreen extends StatefulWidget {
 
 class _FeedpageScreen extends State<FeedPageScreen> {
   bool _isLoading = false; // Add a variable to track loading state
+  String selectedChannel = '1';
 
   @override
   void initState() {
@@ -37,8 +40,8 @@ class _FeedpageScreen extends State<FeedPageScreen> {
 
     try {
       // Fetch the latest posts from the server
-      List<PostModel> latestPosts =
-          await StateManager.postController.getPosts();
+      List<PostModel> latestPosts = await StateManager.postController
+          .getPosts(selectedChannel: selectedChannel);
 
       // Update the postList in the PostController
       StateManager.postController.setPostList(latestPosts);
@@ -147,6 +150,15 @@ class _FeedpageScreen extends State<FeedPageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: feedAppBar(StateManager.userController.getUsername()),
+        drawer: ChannelSidebar(
+          channels: channels,
+          onChannelSelected: (channel) {
+            setState(() {
+              selectedChannel = channel;
+            });
+            _fetchPosts();
+          },
+        ),
         body: bodyWidget(StateManager.postController.getPostList()));
   }
 }

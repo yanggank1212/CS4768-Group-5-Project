@@ -36,7 +36,8 @@ class _CommentPageScreenState extends State<CommentPageScreen> {
           username: StateManager.userController.getUsername(),
           description: _commentController.text,
           release_date: DateTime.now(), // Use current date and time
-          threadFather: widget.fatherPost.id);
+          threadFather: widget.fatherPost.id,
+          channel: 'General');
 
       // DocumentReference<Object?> documentReference =
       //     await StateManager.postController.addPost(newPost);

@@ -21,6 +21,7 @@ class PostModel {
   List<String> imageUrls;
   List<String> comments;
   String threadFather; // To know if a post is the child of another post
+  String channel;
 
   UserController userController = UserController();
 
@@ -36,6 +37,7 @@ class PostModel {
     List<String>? comments,
     List<String>? imageUrls,
     String? threadFather,
+    required this.channel, //General, Education, Clubs & Society, Sprots Arts & Culture
   })  : this.likes = likes ?? [],
         this.dislikes = dislikes ?? [],
         this.comments = comments ?? [],
@@ -53,22 +55,23 @@ class PostModel {
       'comments': comments,
       'imageUrls': imageUrls,
       'threadFather': threadFather,
+      'channel': channel,
     };
   }
 
   static PostModel fromMap(Map<String, dynamic> map, String documentId) {
     return PostModel(
-      id: documentId,
-      userID: map['userID'] ?? '',
-      username: map['username'] ?? '',
-      description: map['description'] ?? '',
-      release_date: (map['release_date'] as Timestamp).toDate(),
-      likes: List<String>.from(map['likes'] ?? []),
-      dislikes: List<String>.from(map['dislikes'] ?? []),
-      comments: List<String>.from(map['comments'] ?? []),
-      imageUrls: List<String>.from(map['imageUrls'] ?? []),
-      threadFather: map['threadFather'] ?? '',
-    );
+        id: documentId,
+        userID: map['userID'] ?? '',
+        username: map['username'] ?? '',
+        description: map['description'] ?? '',
+        release_date: (map['release_date'] as Timestamp).toDate(),
+        likes: List<String>.from(map['likes'] ?? []),
+        dislikes: List<String>.from(map['dislikes'] ?? []),
+        comments: List<String>.from(map['comments'] ?? []),
+        imageUrls: List<String>.from(map['imageUrls'] ?? []),
+        threadFather: map['threadFather'] ?? '',
+        channel: map['channel'] ?? '1');
   }
 
   void printDetails() {
