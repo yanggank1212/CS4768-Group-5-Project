@@ -37,7 +37,7 @@ class _PostWidgetState extends State<PostWidget> {
   late PostModel _postModel;
   PageController _pageController = PageController();
 
-  Color maroonColor = const Color(0xFF800000);
+  Color maroonColor = const Color(0xFF8C1D40);
   Color darkTextColor = const Color(0xFF212121);
 
   @override

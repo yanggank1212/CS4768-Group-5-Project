@@ -105,7 +105,7 @@ class _CreatePostPageScreenState extends State<CreatePostPageScreen> {
   Widget build(BuildContext context) {
     // Define the colors from the logo
     const Color maroonColor =
-        Color(0xFF800000); // Adjust the color based on the logo
+        Color(0xFF8C1D40);
     const Color backgroundColor = Colors.white;
 
     return Scaffold(
