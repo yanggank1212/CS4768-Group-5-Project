@@ -20,20 +20,17 @@ class ChannelSidebar extends StatelessWidget {
         color: primaryColor, // Drawer background color
         child: ListView(
           children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: accentColor, // Header background color
-              ),
-              child: Text(
-                'Channels',
-                style: GoogleFonts.montserrat(
+            Text(
+              "Channels",
+              style: GoogleFonts.montserrat(
                   textStyle: TextStyle(
-                    color: textColor,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
+                color: textColor,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              )),
+            ),
+            SizedBox(
+              height: 16,
             ),
             for (var channel in channels)
               ListTile(
@@ -46,7 +43,7 @@ class ChannelSidebar extends StatelessWidget {
                     ),
                   ),
                 ),
-                leading: Icon(Icons.live_tv, color: textColor), // Sample icon
+                leading: Icon(channel.icon, color: textColor), // Sample icon
                 onTap: () {
                   onChannelSelected(channel.id);
                   Navigator.pop(context);
