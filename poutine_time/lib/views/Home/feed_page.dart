@@ -64,21 +64,24 @@ class _FeedpageScreen extends State<FeedPageScreen> {
 
   PreferredSizeWidget _feedAppBar(String? username) {
     return AppBar(
-      title: Text(
-        'Poutines',
-        style: GoogleFonts.tangerine(
-          textStyle: TextStyle(
-            color: Colors.white,
-            fontSize: 30, // Adjust the size to your preference
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
       backgroundColor: primaryColor,
-      actions: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: Text(
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            'Poutines',
+            style: GoogleFonts.tangerine(
+              textStyle: TextStyle(
+                color: Colors.white,
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          // This Spacer will push the username to the end of the AppBar
+          Spacer(),
+          Text(
             username ?? "No Name",
             style: GoogleFonts.jetBrainsMono(
               fontSize: 20,
@@ -86,8 +89,8 @@ class _FeedpageScreen extends State<FeedPageScreen> {
               color: Colors.white,
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
