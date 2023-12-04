@@ -2,6 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:poutine_time/controller/state_manager.dart';
 import 'package:poutine_time/controller/user_controller.dart';
 import 'package:poutine_time/model/user_model.dart';
@@ -12,6 +13,10 @@ import '../../theme_provider.dart';
 
 class AccountsPage extends StatelessWidget {
   AccountsPage({super.key});
+
+
+  Color maroonColor = const Color(0xFF8C1D40);
+  Color darkTextColor = const Color(0xFF212121);
 
   Future<void> signOut(BuildContext context) async {
     try {
@@ -54,14 +59,15 @@ class AccountsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Account'),
+        title: const Text('Account', style: TextStyle(color: Colors.white)),
+        backgroundColor: maroonColor, // Use the maroon color for AppBar
       ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            profileDetails(),
-            ChangeEmailPassword(),
-            UserGuide(),
+            profileDetails(context),
+            ChangeEmailPassword(context),
+            UserGuide(context),
             ThemeCustomization(context),
             SignOut(context),
           ],
@@ -70,8 +76,14 @@ class AccountsPage extends StatelessWidget {
     );
   }
 
-  Widget profileDetails() {
+  Widget profileDetails(BuildContext context) {
     var username = StateManager.userController.userModel.username;
+
+    // Decide the text color based on the theme
+    Color textColor = Theme.of(context).brightness == Brightness.dark
+        ? Colors.white
+        : darkTextColor;
+
     return Padding(
       padding: EdgeInsets.all(16.0),
       child: Column(
@@ -79,10 +91,16 @@ class AccountsPage extends StatelessWidget {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text(username,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              Text(
+                username,
+                style: GoogleFonts.roboto(
+                  color: textColor, // Use textColor that contrasts with the background
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               SizedBox(width: 4),
-              Icon(Icons.verified, color: Colors.blue) // Verified icon
+              Icon(Icons.verified, color: Colors.blue), // Verified icon
             ],
           ),
         ],
@@ -90,7 +108,8 @@ class AccountsPage extends StatelessWidget {
     );
   }
 
-  Widget ChangeEmailPassword() {
+
+  Widget ChangeEmailPassword(BuildContext context) {
     return Column(
       children: <Widget>[
         ListTile(
@@ -104,7 +123,7 @@ class AccountsPage extends StatelessWidget {
     );
   }
 
-  Widget UserGuide() {
+  Widget UserGuide(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.help_outline),
       title: const Text('User Guide'),
