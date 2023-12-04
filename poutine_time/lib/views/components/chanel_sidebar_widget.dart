@@ -5,8 +5,12 @@ import 'package:poutine_time/model/channel_model.dart';
 class ChannelSidebar extends StatelessWidget {
   final List<ChannelModel> channels;
   final Function(String) onChannelSelected;
+  final VoidCallback onTrendingSelected;
 
-  ChannelSidebar({required this.channels, required this.onChannelSelected});
+  ChannelSidebar(
+      {required this.channels,
+      required this.onChannelSelected,
+      required this.onTrendingSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +53,25 @@ class ChannelSidebar extends StatelessWidget {
                   Navigator.pop(context);
                 },
               ),
+            SizedBox(
+              height: 16,
+            ),
+            ListTile(
+              title: Text(
+                "Trending",
+                style: GoogleFonts.robotoCondensed(
+                  textStyle: TextStyle(
+                    color: textColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              leading: Icon(Icons.trending_up, color: textColor), // Sample icon
+              onTap: () {
+                onTrendingSelected();
+                Navigator.pop(context);
+              },
+            ),
           ],
         ),
       ),

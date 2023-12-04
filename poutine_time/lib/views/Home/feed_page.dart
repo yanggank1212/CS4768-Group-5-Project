@@ -37,7 +37,7 @@ class _FeedpageScreen extends State<FeedPageScreen> {
     setState(() {});
   }
 
-  Future<void> _fetchPosts() async {
+  Future<void> _fetchPosts({bool trending = false}) async {
     setState(() {
       _isLoading = true; // Set loading to true when starting the fetch
     });
@@ -49,6 +49,7 @@ class _FeedpageScreen extends State<FeedPageScreen> {
 
       // Update the postList in the PostController
       StateManager.postController.setPostList(latestPosts);
+      if (trending) StateManager.postController.sortPostsTrending();
 
       // Force a rebuild of the widget tree
       setState(() {});
@@ -94,13 +95,14 @@ class _FeedpageScreen extends State<FeedPageScreen> {
     );
   }
 
-
   Widget _bodyWidget(List<PostModel> postLists) {
     if (_isLoading) {
       return Center(child: CircularProgressIndicator());
     }
     if (postLists.isEmpty) {
-      return Center(child: Text('No posts to display', style: GoogleFonts.inter(color: accentColor)));
+      return Center(
+          child: Text('No posts to display',
+              style: GoogleFonts.inter(color: accentColor)));
     }
     return RefreshIndicator(
       onRefresh: _fetchPosts,
@@ -116,7 +118,6 @@ class _FeedpageScreen extends State<FeedPageScreen> {
       ),
     );
   }
-
 
   @override
   void dispose() {
@@ -136,6 +137,13 @@ class _FeedpageScreen extends State<FeedPageScreen> {
             selectedChannel = channel;
           });
           _fetchPosts();
+        },
+        onTrendingSelected: () {
+          print("Trending");
+
+          setState(() {});
+          _fetchPosts(trending: true);
+          //StateManager.postController.setPostList(trendingPosts);
         },
       ),
       body: _bodyWidget(StateManager.postController.getPostList()),

@@ -84,6 +84,32 @@ class PostControllerService extends ChangeNotifier {
     }
   }
 
+  void sortPostsTrending() {
+    try {
+      this.postList.sort((a, b) {
+        // DateTime aDate = DateTime(
+        //     a.release_date.year, a.release_date.month, a.release_date.day);
+        // DateTime bDate = DateTime(
+        //     b.release_date.year, b.release_date.month, b.release_date.day);
+
+        // // First, sort by release date in descending order
+        // int dateComparison = bDate.compareTo(aDate);
+        // if (dateComparison != 0) {
+        //   return dateComparison;
+        // }
+
+        // If release dates are equal, sort by the number of likes in descending order
+        return b.likes.length.compareTo(a.likes.length);
+      });
+
+      // Notify listeners about the change in the postList order
+      notifyListeners();
+    } catch (e) {
+      print("Error sorting posts: ${e.toString()}");
+      rethrow;
+    }
+  }
+
   Future<List<PostModel>> getPosts({String? selectedChannel}) async {
     try {
       QuerySnapshot<Map<String, dynamic>> querySnapshot;
@@ -115,8 +141,6 @@ class PostControllerService extends ChangeNotifier {
       return [];
     }
   }
-
-
 
   Future<void> likePost(String postId, String userId) async {
     try {
@@ -177,7 +201,6 @@ class PostControllerService extends ChangeNotifier {
       rethrow;
     }
   }
-
 
   Future<void> addComment(String? fatherID, PostModel comment) async {
     try {
@@ -242,7 +265,7 @@ class PostControllerService extends ChangeNotifier {
     }
   }
 
-  void setPostList(List<PostModel> _postsList) {
+  Future<void> setPostList(List<PostModel> _postsList) async {
     this.postList = _postsList;
   }
 
