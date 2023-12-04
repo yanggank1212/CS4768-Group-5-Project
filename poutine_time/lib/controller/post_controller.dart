@@ -116,6 +116,69 @@ class PostControllerService extends ChangeNotifier {
     }
   }
 
+
+
+  Future<void> likePost(String postId, String userId) async {
+    try {
+      // Retrieve the post document from Firestore
+      var postSnapshot = await postCollection.doc(postId).get();
+
+      if (postSnapshot.exists) {
+        var postData = postSnapshot.data() as Map<String, dynamic>;
+        var post = PostModel.fromMap(postData, postId);
+
+        // Check if the user has already disliked the post
+        if (post.dislikes.contains(userId)) {
+          post.dislikes.remove(userId);
+        }
+
+        // Add the user's ID to likes if not already present
+        if (!post.likes.contains(userId)) {
+          post.likes.add(userId);
+        }
+
+        // Update the post document in Firestore
+        await postCollection.doc(postId).update(post.toMap());
+      } else {
+        throw Exception('Post not found');
+      }
+    } catch (e) {
+      print("Error: ${e.toString()}");
+      rethrow;
+    }
+  }
+
+  Future<void> dislikePost(String postId, String userId) async {
+    try {
+      // Retrieve the post document from Firestore
+      var postSnapshot = await postCollection.doc(postId).get();
+
+      if (postSnapshot.exists) {
+        var postData = postSnapshot.data() as Map<String, dynamic>;
+        var post = PostModel.fromMap(postData, postId);
+
+        // Check if the user has already liked the post
+        if (post.likes.contains(userId)) {
+          post.likes.remove(userId);
+        }
+
+        // Add the user's ID to dislikes if not already present
+        if (!post.dislikes.contains(userId)) {
+          post.dislikes.add(userId);
+        }
+
+        // Update the post document in Firestore
+        await postCollection.doc(postId).update(post.toMap());
+      } else {
+        throw Exception('Post not found');
+      }
+    } catch (e) {
+      print("Error: ${e.toString()}");
+      rethrow;
+    }
+  }
+
+
   Future<void> addComment(String? fatherID, PostModel comment) async {
     try {
       //Add the comment to the post collection
