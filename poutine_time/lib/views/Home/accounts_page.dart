@@ -66,7 +66,6 @@ class AccountsPage extends StatelessWidget {
         child: Column(
           children: <Widget>[
             profileDetails(context),
-            ChangeEmailPassword(context),
             UserGuide(context),
             ThemeCustomization(context),
             SignOut(context),
@@ -109,7 +108,7 @@ class AccountsPage extends StatelessWidget {
   }
 
 
-  Widget ChangeEmailPassword(BuildContext context) {
+  /*Widget ChangeEmailPassword(BuildContext context) {
     return Column(
       children: <Widget>[
         ListTile(
@@ -121,7 +120,7 @@ class AccountsPage extends StatelessWidget {
         ),
       ],
     );
-  }
+  }*/
 
   Widget UserGuide(BuildContext context) {
     return ListTile(
