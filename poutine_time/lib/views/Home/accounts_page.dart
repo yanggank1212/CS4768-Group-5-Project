@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:poutine_time/controller/state_manager.dart';
 import 'package:poutine_time/controller/user_controller.dart';
 import 'package:poutine_time/model/user_model.dart';
+import 'package:poutine_time/views/LogIn/SignIn/auth_gate.dart';
 import 'package:provider/provider.dart';
 
 import '../../theme_provider.dart';
@@ -12,12 +13,20 @@ import '../../theme_provider.dart';
 class AccountsPage extends StatelessWidget {
   AccountsPage({super.key});
 
-  Future<void> signOut() async {
+  Future<void> signOut(BuildContext context) async {
     try {
       await FirebaseAuth.instance.signOut();
+
       print('User signed out');
+
+      // After the sign out, remove all routes and navigate to the sign-in page
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => AuthPage()),
+            (Route<dynamic> route) => false,
+      );
     } catch (e) {
-      print('Error signing out: $e');
+
+      print('Error signing out: ${e.toString()}');
     }
   }
 
@@ -124,7 +133,7 @@ class AccountsPage extends StatelessWidget {
       leading: const Icon(Icons.exit_to_app),
       title: const Text('Sign Out'),
       onTap: () async {
-        await signOut();
+        await signOut(context);
       },
     );
   }
