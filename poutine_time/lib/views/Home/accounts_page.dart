@@ -79,7 +79,7 @@ class AccountsPage extends StatelessWidget {
   Widget profileDetails(BuildContext context) {
     var username = StateManager.userController.userModel.username;
 
-    // Decide the text color based on the theme
+    // Deciding text color based on theme
     Color textColor = Theme.of(context).brightness == Brightness.dark
         ? Colors.white
         : darkTextColor;
@@ -94,7 +94,7 @@ class AccountsPage extends StatelessWidget {
               Text(
                 username,
                 style: GoogleFonts.roboto(
-                  color: textColor, // Use textColor that contrasts with the background
+                  color: textColor, // Using text color that contrasts with the background
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
