@@ -20,6 +20,11 @@ class HomePageScreen extends StatefulWidget {
 class _HomePageScreen extends State<HomePageScreen> {
   int _selectedIndex = 0; //For Bottom Bar Navigation
 
+  // Defining color scheme
+  final Color maroonColor = Color(0xFF8C1D40);
+  final Color lightTextColor = Colors.white;
+  final Color darkTextColor = Colors.black;
+
   @override
   void initState() {
     super.initState();
@@ -38,9 +43,14 @@ class _HomePageScreen extends State<HomePageScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Determine the text color based on the theme brightness
+    Color textColor = Theme.of(context).brightness == Brightness.dark
+        ? lightTextColor
+        : darkTextColor;
+
     final List<Widget> _pages = [
       FeedPageScreen(),
-      const CreatePostPageScreen(),
+      CreatePostPageScreen(),
       AccountsPage(),
     ];
 
@@ -48,44 +58,27 @@ class _HomePageScreen extends State<HomePageScreen> {
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
+        backgroundColor: maroonColor,
+        selectedItemColor: textColor, // Item color changes with theme
+        unselectedItemColor: textColor.withOpacity(0.6), // Unselected item is less opaque
         type: BottomNavigationBarType.fixed,
-        items: <BottomNavigationBarItem>[
-          // Home Button
+        items: [
           BottomNavigationBarItem(
-            icon: SizedBox(
-              width: 32,
-              height: 32,
-              child: Image.asset(
-                'assets/icons/home-button.png',
-              ),
-            ),
+            icon: Icon(Icons.home),
             label: 'Feed',
           ),
-          // New Post Button
           BottomNavigationBarItem(
-            icon: SizedBox(
-              width: 32,
-              height: 32,
-              child: Image.asset(
-                'assets/icons/edit-button.png',
-              ),
-            ),
+            icon: Icon(Icons.edit),
             label: 'Create Post',
           ),
-          // Account Button
           BottomNavigationBarItem(
-            icon: SizedBox(
-              width: 32,
-              height: 32,
-              child: Image.asset(
-                'assets/icons/account-button.png',
-              ),
-            ),
+            icon: Icon(Icons.account_circle),
             label: 'Account',
           ),
         ],
-        onTap: _navigateBottomBar,
+        onTap: (index) => setState(() => _selectedIndex = index),
       ),
     );
   }
+
 }
