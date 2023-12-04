@@ -41,7 +41,7 @@ class _HomePageScreen extends State<HomePageScreen> {
     final List<Widget> _pages = [
       FeedPageScreen(),
       const CreatePostPageScreen(),
-      const ProfileScreen(),
+      AccountsPage(),
     ];
 
     return Scaffold(

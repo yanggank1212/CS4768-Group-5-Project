@@ -20,8 +20,7 @@ class AuthPage extends StatefulWidget {
 class _AuthPage extends State<AuthPage> {
   FirebaseAuth auth = FirebaseAuth.instance;
 
-  @override
-  Widget build(BuildContext context) {
+  Widget prevAuth() {
     return Scaffold(
       appBar: AppBar(
         title: Text('Welcome'),
@@ -80,5 +79,28 @@ class _AuthPage extends State<AuthPage> {
         ),
       ),
     );
+  }
+
+  Widget newAuth() {
+    return StreamBuilder<User?>(
+      stream: auth.authStateChanges(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return SignInScreen(
+            providers: [
+              EmailAuthProvider(),
+              GoogleProvider(clientId: "YOUR_WEBCLIENT_ID"),
+            ],
+          );
+        } else {
+          return const LoadingScreen();
+        }
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return newAuth();
   }
 }

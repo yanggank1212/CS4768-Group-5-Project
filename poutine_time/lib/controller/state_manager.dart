@@ -10,6 +10,7 @@ class StateManager {
   // static late User user;
   static late PostControllerService postController;
   static late UserController userController;
+  FirebaseAuth auth = FirebaseAuth.instance;
 
   static void initialize() {
     postController = PostControllerService();

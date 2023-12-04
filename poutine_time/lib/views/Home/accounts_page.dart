@@ -1,6 +1,8 @@
 //import 'dart:js';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:poutine_time/controller/state_manager.dart';
 import 'package:poutine_time/controller/user_controller.dart';
 import 'package:poutine_time/model/user_model.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +11,35 @@ import '../../theme_provider.dart';
 
 class AccountsPage extends StatelessWidget {
   AccountsPage({super.key});
+
+  Future<void> signOut() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      print('User signed out');
+    } catch (e) {
+      print('Error signing out: $e');
+    }
+  }
+
+  // Future<void> changePassword() async {
+  //   try {
+  //     User? user = FirebaseAuth.instance.currentUser;
+
+  //     // First, re-authenticate the user with their current password
+  //     AuthCredential credential = EmailAuthProvider.credential(
+  //       email: user!.email!,
+  //       password: _currentPasswordController.text,
+  //     );
+  //     await user.reauthenticateWithCredential(credential);
+
+  //     // Second, update the user's password to the new password
+  //     await user.updatePassword(_newPasswordController.text);
+
+  //     print('Password changed successfully');
+  //   } catch (e) {
+  //     print('Error changing password: $e');
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +54,7 @@ class AccountsPage extends StatelessWidget {
             ChangeEmailPassword(),
             UserGuide(),
             ThemeCustomization(context),
-            LogOut(context),
+            SignOut(context),
           ],
         ),
       ),
@@ -31,19 +62,15 @@ class AccountsPage extends StatelessWidget {
   }
 
   Widget profileDetails() {
-    return const Padding(
+    var username = StateManager.userController.userModel.username;
+    return Padding(
       padding: EdgeInsets.all(16.0),
       child: Column(
         children: <Widget>[
-          CircleAvatar(
-            radius: 50,
-            //backgroundImage: NetworkImage('https://via.placeholder.com/150'),
-          ),
-          SizedBox(height: 8),
           Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text('Username',
+              Text(username,
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               SizedBox(width: 4),
               Icon(Icons.verified, color: Colors.blue) // Verified icon
@@ -92,13 +119,12 @@ class AccountsPage extends StatelessWidget {
     );
   }
 
-  Widget LogOut(BuildContext context) {
+  Widget SignOut(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.exit_to_app),
-      title: const Text('Log Out'),
-      onTap: () {
-        // Handle log out
-        Navigator.pop(context);
+      title: const Text('Sign Out'),
+      onTap: () async {
+        await signOut();
       },
     );
   }
