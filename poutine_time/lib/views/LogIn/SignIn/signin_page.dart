@@ -55,11 +55,11 @@ class _SignUpPageState extends State<SignUpPage> {
               },
               child: Text('Sign Up'),
             ),
-            // SizedBox(height: 16.0),
-            // ElevatedButton(
-            //   onPressed: _signInWithGoogle,
-            //   child: Text('Sign in with Google'),
-            // ),
+            SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: _signInWithGoogle,
+              child: Text('Sign in with Google'),
+            ),
           ],
         ),
       ),
@@ -126,6 +126,56 @@ class _SignUpPageState extends State<SignUpPage> {
         _errorMessage = e.message ?? 'An error occurred';
       });
     }
+  }
+
+  Future<void> _signInWithGoogle() async {
+    final String username = _usernameController.text.trim();
+    try {
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+
+      if (googleAuth == null) {
+        throw FirebaseAuthException(
+          code: 'ERROR_MISSING_GOOGLE_AUTH_TOKEN',
+          message: 'Missing Google Auth Token',
+        );
+      }
+
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      UserCredential userCredential =
+          await _auth.signInWithCredential(credential);
+      User? user = userCredential.user;
+      if (user == null) {
+        throw FirebaseAuthException(
+          code: 'ERROR_FAILED_TO_SIGN_IN_WITH_GOOGLE',
+          message: 'Failed to sign in with Google',
+        );
+      }
+
+      //Create UserModel
+      String userID = user.uid;
+      UserModel userModel = UserModel(username: username);
+      user.updateDisplayName(username);
+
+      //Store User information on Data/UserList
+      await _firestore
+          .collection('Data')
+          .doc("userList")
+          .update({userID: userModel.toMap()});
+
+      //Navigate to HomePage
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LoadingScreen(),
+        ),
+      );
+    } catch (e) {}
   }
 
   /* Future<void> _signInWithGoogle() async {

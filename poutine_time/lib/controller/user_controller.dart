@@ -39,7 +39,14 @@ class UserController {
     } catch (e) {
       // Handle any errors that might occur during the fetch
       print('Error fetching user model: $e');
-      return null;
+      String username = user.email?.split('@')[0] as String;
+      UserModel userModel = UserModel(username: username);
+
+      await FirebaseFirestore.instance
+          .collection('Data')
+          .doc("userList")
+          .update({userID: userModel.toMap()});
+      return userModel;
     }
   }
 }
