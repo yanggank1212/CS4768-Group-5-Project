@@ -3,6 +3,7 @@
 ///
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:poutine_time/controller/state_manager.dart';
 import 'package:poutine_time/controller/user_controller.dart';
 import 'package:poutine_time/model/post_model.dart';
@@ -21,13 +22,15 @@ class CommentPageScreen extends StatefulWidget {
 
 class _CommentPageScreenState extends State<CommentPageScreen> {
   final TextEditingController _commentController = TextEditingController();
+  final Color maroonColor = const Color(0xFF8C1D40);
 
   Future<void> postComment() async {
     if (_commentController.text.isEmpty) {
-      print("Fill Description");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('comment')),
+      );
       return;
     }
-
     //Create post
     try {
       // Create a new PostModel instance with the necessary data
@@ -67,39 +70,57 @@ class _CommentPageScreenState extends State<CommentPageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Commenting'),
+        title: Text(
+          'Commenting',
+          style: GoogleFonts.openSans(color: Colors.white, fontWeight: FontWeight.w600),
+        ),
+        backgroundColor: maroonColor,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          PostWidget(
-            postModel: widget.fatherPost,
-            displayInteractions: false,
-            displayPostOption: false,
-            isTappable: false,
-          ),
-          const SizedBox(height: 16),
-          // Text field for entering a comment
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              controller: _commentController,
-              decoration: const InputDecoration(
-                hintText: 'Enter your comment...',
-                border: OutlineInputBorder(),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            PostWidget(
+              postModel: widget.fatherPost,
+              displayUsername: true,
+              displayInteractions: true, // Set to false if you don't want interaction buttons on the comment page
+              displayPostOption: true,
+              isTappable: false,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: TextField(
+                controller: _commentController,
+                decoration: InputDecoration(
+                  labelText: 'Enter your comment',
+                  labelStyle: GoogleFonts.lato(
+                    color: Colors.grey[600], // Optional: Adjust the color to fit your design
+                    fontSize: 16, // Optional: Adjust the font size to fit your design
+                  ),
+                  border: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: maroonColor),
+                  ),
+                ),
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
               ),
-              maxLines: 3,
             ),
-          ),
-          // Button to submit the comment
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: ElevatedButton(
-              onPressed: postComment,
-              child: const Text('Submit Comment'),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: ElevatedButton(
+                onPressed: postComment,
+                style: ElevatedButton.styleFrom(
+                  primary: maroonColor,
+                  onPrimary: Colors.white,
+                ),
+                child: Text(
+                  'Submit Comment',
+                  style: GoogleFonts.openSans(),
+                ),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
