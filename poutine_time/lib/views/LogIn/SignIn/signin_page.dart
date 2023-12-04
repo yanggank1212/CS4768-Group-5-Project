@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:poutine_time/model/Templates/model_templates.dart';
-import 'package:poutine_time/views/Home/home_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:poutine_time/model/user_model.dart';
 import 'package:poutine_time/views/loading_page.dart';
@@ -19,8 +17,6 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
-
-  String _errorMessage = '';
 
   @override
   Widget build(BuildContext context) {
@@ -121,10 +117,8 @@ class _SignUpPageState extends State<SignUpPage> {
           builder: (context) => LoadingScreen(),
         ),
       );
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        _errorMessage = e.message ?? 'An error occurred';
-      });
+    } on FirebaseAuthException {
+      setState(() {});
     }
   }
 
@@ -177,66 +171,4 @@ class _SignUpPageState extends State<SignUpPage> {
       );
     } catch (e) {}
   }
-
-  /* Future<void> _signInWithGoogle() async {
-    /*final String email = _emailController.text.trim();
-    final String password = _passwordController.text.trim();*/
-    final String username = _usernameController.text.trim();
-
-    try {
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
-
-      if (googleAuth == null) {
-        throw FirebaseAuthException(
-          code: 'ERROR_MISSING_GOOGLE_AUTH_TOKEN',
-          message: 'Missing Google Auth Token',
-        );
-      }
-
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-
-      UserCredential userCredential =
-          await _auth.signInWithCredential(credential);
-      User? user = userCredential.user;
-      if (user == null) {
-        throw FirebaseAuthException(
-          code: 'ERROR_FAILED_TO_SIGN_IN_WITH_GOOGLE',
-          message: 'Failed to sign in with Google',
-        );
-      }
-
-      //User? user = userCredential.user;
-      String userID = user!.uid;
-      UserModel userModel = UserModel(username: username);
-
-      //Store User information on Data/UserList
-      await _firestore
-          .collection('Data')
-          .doc("userList")
-          .update({userID: userModel.toMap()});
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>
-              LoadingScreen(), // Navigate to home page after sign in
-        ),
-      );
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        _errorMessage = e.message ?? 'An error occurred during Google Sign-In';
-      });
-    } catch (e) {
-      setState(() {
-        _errorMessage = e.toString();
-      });
-    }
-  }
-  */
 }

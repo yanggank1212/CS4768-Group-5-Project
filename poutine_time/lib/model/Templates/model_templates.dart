@@ -1,6 +1,5 @@
 //import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:poutine_time/model/post_model.dart';
 import 'package:poutine_time/model/user_model.dart';
 

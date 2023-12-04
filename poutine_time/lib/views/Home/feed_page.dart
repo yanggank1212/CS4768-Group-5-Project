@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:poutine_time/controller/post_controller.dart';
 import 'package:poutine_time/controller/state_manager.dart';
-import 'package:poutine_time/controller/user_controller.dart';
 import 'package:poutine_time/model/Templates/channels.dart';
-import 'package:poutine_time/model/Templates/model_templates.dart';
 import 'package:poutine_time/model/post_model.dart';
-import 'package:poutine_time/model/user_model.dart';
 import 'package:poutine_time/views/components/chanel_sidebar_widget.dart';
 import '../components/post_widget.dart';
 

@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:poutine_time/controller/post_controller.dart';
 import 'package:poutine_time/controller/user_controller.dart';
-import 'package:poutine_time/model/user_model.dart';
 
 /// So That we dont have to keep passing UserController and PostController as parameters all the time
 ///

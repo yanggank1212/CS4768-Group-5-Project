@@ -1,13 +1,10 @@
 /// This will display the commenting page
 /// it will display the post to be commented and the comment post to be made
 ///
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:poutine_time/controller/state_manager.dart';
-import 'package:poutine_time/controller/user_controller.dart';
 import 'package:poutine_time/model/post_model.dart';
-import 'package:poutine_time/views/Home/home_page.dart';
 import 'package:poutine_time/views/components/post_widget.dart'; // Import your PostModel class
 
 class CommentPageScreen extends StatefulWidget {
@@ -72,7 +69,8 @@ class _CommentPageScreenState extends State<CommentPageScreen> {
       appBar: AppBar(
         title: Text(
           'Commenting',
-          style: GoogleFonts.openSans(color: Colors.white, fontWeight: FontWeight.w600),
+          style: GoogleFonts.openSans(
+              color: Colors.white, fontWeight: FontWeight.w600),
         ),
         backgroundColor: maroonColor,
       ),
@@ -82,7 +80,8 @@ class _CommentPageScreenState extends State<CommentPageScreen> {
             PostWidget(
               postModel: widget.fatherPost,
               displayUsername: true,
-              displayInteractions: true, // Set to false if you don't want interaction buttons on the comment page
+              displayInteractions:
+                  true, // Set to false if you don't want interaction buttons on the comment page
               displayPostOption: true,
               isTappable: false,
             ),
@@ -93,8 +92,10 @@ class _CommentPageScreenState extends State<CommentPageScreen> {
                 decoration: InputDecoration(
                   labelText: 'Enter your comment',
                   labelStyle: GoogleFonts.lato(
-                    color: Colors.grey[600], // Optional: Adjust the color to fit your design
-                    fontSize: 16, // Optional: Adjust the font size to fit your design
+                    color: Colors.grey[
+                        600], // Optional: Adjust the color to fit your design
+                    fontSize:
+                        16, // Optional: Adjust the font size to fit your design
                   ),
                   border: OutlineInputBorder(),
                   focusedBorder: OutlineInputBorder(

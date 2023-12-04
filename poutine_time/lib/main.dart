@@ -1,16 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:poutine_time/controller/state_manager.dart';
 import 'package:poutine_time/firebase_options.dart';
-import 'package:poutine_time/views/Home/home_page.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:poutine_time/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'views/LogIn/SignIn/auth_gate.dart';
-import 'views/LogIn/SignIn/signin_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

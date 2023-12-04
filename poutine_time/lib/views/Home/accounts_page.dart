@@ -4,8 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:poutine_time/controller/state_manager.dart';
-import 'package:poutine_time/controller/user_controller.dart';
-import 'package:poutine_time/model/user_model.dart';
 import 'package:poutine_time/views/LogIn/SignIn/auth_gate.dart';
 import 'package:provider/provider.dart';
 
@@ -13,7 +11,6 @@ import '../../theme_provider.dart';
 
 class AccountsPage extends StatelessWidget {
   AccountsPage({super.key});
-
 
   Color maroonColor = const Color(0xFF8C1D40);
   Color darkTextColor = const Color(0xFF212121);
@@ -27,10 +24,9 @@ class AccountsPage extends StatelessWidget {
       // After the sign out, remove all routes and navigate to the sign-in page
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => AuthPage()),
-            (Route<dynamic> route) => false,
+        (Route<dynamic> route) => false,
       );
     } catch (e) {
-
       print('Error signing out: ${e.toString()}');
     }
   }
@@ -93,7 +89,8 @@ class AccountsPage extends StatelessWidget {
               Text(
                 username,
                 style: GoogleFonts.roboto(
-                  color: textColor, // Using text color that contrasts with the background
+                  color:
+                      textColor, // Using text color that contrasts with the background
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
@@ -106,7 +103,6 @@ class AccountsPage extends StatelessWidget {
       ),
     );
   }
-
 
   /*Widget ChangeEmailPassword(BuildContext context) {
     return Column(
