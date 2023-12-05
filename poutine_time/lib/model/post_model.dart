@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:poutine_time/controller/user_controller.dart';
 
 /// This is the post model 1.0
 /// String id
@@ -22,7 +23,7 @@ class PostModel {
   String threadFather; // To know if a post is the child of another post
   String channel;
 
-  // UserController userController = UserController();
+  UserController userController = UserController();
 
   // Likes and dislikes are added here as default values.
   PostModel({

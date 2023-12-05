@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 ///
 
 class UserModel {
-  final String username;
+  late final String username;
 
   UserModel({required this.username});
 

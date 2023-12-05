@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:poutine_time/model/Templates/model_templates.dart';
+import 'package:poutine_time/views/Home/home_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:poutine_time/model/user_model.dart';
 import 'package:poutine_time/views/loading_page.dart';
 
 class LoginPage extends StatefulWidget {

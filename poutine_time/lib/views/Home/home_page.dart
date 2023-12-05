@@ -1,6 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:poutine_time/controller/post_controller.dart';
+import 'package:poutine_time/model/post_model.dart';
+import 'package:poutine_time/model/user_model.dart';
 import 'package:poutine_time/views/Home/createPost_page.dart';
 import 'package:poutine_time/views/Home/accounts_page.dart';
+import 'package:poutine_time/controller/user_controller.dart';
 
 import 'feed_page.dart';
 
@@ -54,8 +60,7 @@ class _HomePageScreen extends State<HomePageScreen> {
         currentIndex: _selectedIndex,
         backgroundColor: maroonColor,
         selectedItemColor: textColor, // Item color changes with theme
-        unselectedItemColor:
-            textColor.withOpacity(0.6), // Unselected item is less opaque
+        unselectedItemColor: textColor.withOpacity(0.6), // Unselected item is less opaque
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
@@ -75,4 +80,5 @@ class _HomePageScreen extends State<HomePageScreen> {
       ),
     );
   }
+
 }

@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:poutine_time/controller/state_manager.dart';
+import 'package:poutine_time/controller/user_controller.dart';
 import 'package:poutine_time/model/post_model.dart';
+import 'package:poutine_time/controller/post_controller.dart';
+import 'package:poutine_time/model/user_model.dart';
 import 'package:poutine_time/views/Home/home_page.dart';
 import 'package:poutine_time/model/channel_model.dart';
 import 'package:poutine_time/model/Templates/channels.dart';
@@ -101,7 +104,8 @@ class _CreatePostPageScreenState extends State<CreatePostPageScreen> {
   @override
   Widget build(BuildContext context) {
     // Define the colors from the logo
-    const Color maroonColor = Color(0xFF8C1D40);
+    const Color maroonColor =
+        Color(0xFF8C1D40);
     const Color backgroundColor = Colors.white;
 
     return Scaffold(
@@ -135,7 +139,7 @@ class _CreatePostPageScreenState extends State<CreatePostPageScreen> {
                   borderRadius: BorderRadius.circular(10), // Rounded corners
                   borderSide: BorderSide(color: maroonColor), // Maroon border
                 ),
-                fillColor: backgroundColor,
+                fillColor: Theme.of(context).brightness == Brightness.light ? Colors.white : Colors.grey[800], // Dynamically determine the background color based on the theme
                 filled: true,
               ),
               maxLines: 5,
@@ -159,7 +163,9 @@ class _CreatePostPageScreenState extends State<CreatePostPageScreen> {
               icon: const Icon(Icons.arrow_drop_down),
               iconSize: 24,
               elevation: 16,
-              style: const TextStyle(color: Colors.black),
+              style: TextStyle(
+                color: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white, // Dynamically determine the text color based on the theme
+              ),
               underline: Container(
                 height: 2,
                 color: maroonColor,
@@ -175,7 +181,12 @@ class _CreatePostPageScreenState extends State<CreatePostPageScreen> {
                   .map<DropdownMenuItem<ChannelModel>>((ChannelModel channel) {
                 return DropdownMenuItem<ChannelModel>(
                   value: channel,
-                  child: Text(channel.name),
+                  child: Text(
+                    channel.name,
+                    style: TextStyle(
+                      color: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white, // Dynamically determine the text color based on the theme
+                    ),
+                  ),
                 );
               }).toList(), // Added toList() to fix the type issue
             ),
@@ -320,9 +331,11 @@ class _CreatePostPageScreenState extends State<CreatePostPageScreen> {
 
   // Message to display after the post is submitted
   void _message() {
+    const Color maroonColor =
+    Color(0xFF8C1D40);
     final snackBar = SnackBar(
       content: const Text('Post submitted!'),
-      backgroundColor: Colors.blueAccent,
+      backgroundColor: maroonColor,
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       margin: const EdgeInsets.all(16),

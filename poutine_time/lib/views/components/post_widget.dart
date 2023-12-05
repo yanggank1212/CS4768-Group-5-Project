@@ -69,15 +69,20 @@ class _PostWidgetState extends State<PostWidget> {
                 icon: Icon(Icons.arrow_back_ios),
                 onPressed: () {
                   if (_pageController.hasClients && _pageController.page! > 0) {
-                    _pageController.previousPage(duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+                    _pageController.previousPage(
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.easeInOut);
                   }
                 },
               ),
               IconButton(
                 icon: Icon(Icons.arrow_forward_ios),
                 onPressed: () {
-                  if (_pageController.hasClients && _pageController.page! < _postModel.imageUrls.length - 1) {
-                    _pageController.nextPage(duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+                  if (_pageController.hasClients &&
+                      _pageController.page! < _postModel.imageUrls.length - 1) {
+                    _pageController.nextPage(
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.easeInOut);
                   }
                 },
               ),
@@ -86,7 +91,6 @@ class _PostWidgetState extends State<PostWidget> {
         ],
       );
     } else {
-
       // Shrinking to adjust size
       return SizedBox.shrink();
     }
@@ -188,6 +192,9 @@ class _PostWidgetState extends State<PostWidget> {
 
 
   Widget topContainerWidget(bool displayUsername, bool displayPostOption) {
+    // Check the current brightness of the theme
+    Brightness brightness = Theme.of(context).brightness;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Row(
@@ -200,12 +207,12 @@ class _PostWidgetState extends State<PostWidget> {
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
                 letterSpacing: 1.0,
-                color: Colors.red[800],
+                color: brightness == Brightness.light ? Colors.red[800] : Colors.white, // Set text color based on theme
               ),
             ),
           if (displayPostOption)
             IconButton(
-              icon: Icon(Icons.more_vert, color: Colors.red[800]),
+              icon: Icon(Icons.more_vert, color: brightness == Brightness.light ? Colors.red[800] : Colors.white), // Set icon color based on theme
               onPressed: () {},
             ),
         ],
@@ -214,6 +221,9 @@ class _PostWidgetState extends State<PostWidget> {
   }
 
   Widget middleContainerWidget() {
+    // Check the current brightness of the theme
+    Brightness brightness = Theme.of(context).brightness;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       child: Text(
@@ -221,7 +231,7 @@ class _PostWidgetState extends State<PostWidget> {
         style: GoogleFonts.lato(
           fontSize: 15,
           fontWeight: FontWeight.w400,
-          color: Colors.black87,
+          color: brightness == Brightness.light ? Colors.black87 : Colors.white, // Set text color based on theme
         ),
         maxLines: 3,
         overflow: TextOverflow.ellipsis,
@@ -229,9 +239,11 @@ class _PostWidgetState extends State<PostWidget> {
     );
   }
 
-
   Widget bottomContainerWidget(BuildContext context, bool displayInteractions,
       bool displayReleaseDate) {
+    // Check the current brightness of the theme
+    Brightness brightness = Theme.of(context).brightness;
+
     String formattedDate = DateFormat('dd-MM-yyyy').format(
         _postModel.release_date);
     return Padding(
@@ -247,12 +259,19 @@ class _PostWidgetState extends State<PostWidget> {
               style: GoogleFonts.lato(
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
-                color: Colors.black87,
+                color: brightness == Brightness.light ? Colors.black87 : Colors.white, // Set text color based on theme
               ),
             ),
         ],
       ),
     );
+  }
+
+  //final customBackgroundColor = Color(0xFF2C3E50);
+
+  Color? getBackgroundColor(BuildContext context) {
+    final brightness = Theme.of(context).brightness;
+    return brightness == Brightness.light ? Colors.white : Colors.grey[800];
   }
 
   @override
@@ -270,7 +289,7 @@ class _PostWidgetState extends State<PostWidget> {
         margin: const EdgeInsets.all(8.0),
         elevation: 4.0,
         shadowColor: Colors.red[800]?.withOpacity(0.5),
-        color: Colors.grey[100],
+        color: getBackgroundColor(context), // Dynamically determine the background color
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),
@@ -278,13 +297,15 @@ class _PostWidgetState extends State<PostWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             // Top container widget (username and post option)
-            topContainerWidget(widget.displayUsername, widget.displayPostOption),
+            topContainerWidget(
+                widget.displayUsername, widget.displayPostOption),
             // Middle container widget (post description)
             middleContainerWidget(),
             // Image section
             buildImageSection(),
             // Bottom container widget (interactions and release date)
-            bottomContainerWidget(context, widget.displayInteractions, widget.displayReleaseDate),
+            bottomContainerWidget(
+                context, widget.displayInteractions, widget.displayReleaseDate),
           ],
         ),
       ),
@@ -310,6 +331,9 @@ class InteractionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Check the current brightness of the theme
+    Brightness brightness = Theme.of(context).brightness;
+
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -322,7 +346,7 @@ class InteractionButton extends StatelessWidget {
           Text(
             count.toString(),
             style: TextStyle(
-              color: textColor,
+              color: brightness == Brightness.light ? Colors.black87 : Colors.white, // Set text color based on theme
               fontWeight: FontWeight.bold,
             ),
           ),
